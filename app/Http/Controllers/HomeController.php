@@ -24,6 +24,12 @@ class HomeController extends Controller
             'ticket' => Ticket::query()->findOrFail($id),
         ]);
     }
+    public function ticket_buy($id, Request $request)
+    {
+        if(!auth()->check()) {
+            return redirect(route('login')); 
+        }
+    }
     public function movie($id)
     {
         return view('pages.movie', [

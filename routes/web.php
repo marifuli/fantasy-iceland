@@ -18,7 +18,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/ticket/{id}', [HomeController::class, 'ticket'])->name('ticket');
-Route::get('/ticket/{id}/buy', [HomeController::class, 'ticket_buy'])->name('ticket.buy');
+Route::get('/ticket/{id}/buy', [HomeController::class, 'ticket_buy'])
+    ->name('ticket.buy')
+    ->middleware(['auth']);
 Route::get('/movie/{id}', [HomeController::class, 'movie'])->name('movie');
 Route::redirect('home', '/');
 Route::middleware(['guest'])->group(function () {
