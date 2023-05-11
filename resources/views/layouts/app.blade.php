@@ -31,7 +31,17 @@
                     {{ session()->get('success') }}
                 </div>
             @endif    
-        </div>        
+        </div>     
+        @guest
+        @else 
+            <div class="container">
+                <div class="alert alert-success">
+                    <h3>
+                        Welcome {{auth()->user()->name}}!
+                    </h3>
+                </div>
+            </div>
+        @endguest   
         @yield('content')
     </div>
     <script src="{{ asset('assets/js/mdb.min.js') }}"></script>

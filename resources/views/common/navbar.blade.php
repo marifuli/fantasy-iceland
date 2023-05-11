@@ -37,13 +37,23 @@
                     </li>
                 @else
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Entry tickets</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="/">
-                            Movies
+                            Home 
                         </a>
                     </li>
+                    @guest
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('verify-tickets') }}">
+                                Verify Tickets
+                            </a>
+                        </li>
+                    @else 
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('my-tickets') }}">
+                                My  Tickets
+                            </a>
+                        </li>
+                    @endguest
                 @endif 
             </ul>
         </div>
@@ -65,7 +75,11 @@
                     data-mdb-toggle="dropdown"
                     aria-expanded="false"
                     >
-                    <i class="fas fa-user"></i>
+                    @guest
+                        Login / Register
+                    @else 
+                        <i class="fas fa-user"></i> {{auth()->user()->name}}
+                    @endguest
                 </a>
                 <ul
                     class="dropdown-menu dropdown-menu-end"

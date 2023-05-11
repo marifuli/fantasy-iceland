@@ -19,6 +19,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/after-login', [HomeController::class, 'after_login']);
+Route::view('/verify-tickets', 'pages.verify_tickets')->name('verify-tickets');
+Route::post('/verify-tickets', [HomeController::class, 'verify_tickets_submit']);
+Route::get('/verify-tickets/{code}', [HomeController::class, 'verify_tickets_list'])->name('verify-tickets.list');
+Route::get('/my-tickets', [HomeController::class, 'my_tickets'])
+    ->name('my-tickets')
+    ->middleware(['auth']);
 
 Route::get('/bkash/callback', [BkashController::class, 'bkash_callback'])->name('bkash.callback');
 

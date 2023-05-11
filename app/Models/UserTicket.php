@@ -8,5 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class UserTicket extends Model
 {
     use HasFactory;
-    protected $guarded = [];    
+    protected $guarded = [];   
+    public function ticket()
+    {
+        return $this->belongsTo(Ticket::class);
+    } 
 }

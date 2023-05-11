@@ -9,4 +9,8 @@ class MovieTicket extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    public function movie()
+    {
+        return $this->belongsTo(Movies::class, 'movie_id');
+    }
 }
