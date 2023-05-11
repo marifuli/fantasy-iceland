@@ -83,11 +83,11 @@
                             </a>
                         </li>
                     @else 
-                        <li>
+                        {{-- <li>
                             <a class="dropdown-item" href="#">
                                 Dashboard
                             </a>
-                        </li>
+                        </li> --}}
                         <li>
                             <a class="dropdown-item" href="{{ route('logout') }}">
                                 Logout  

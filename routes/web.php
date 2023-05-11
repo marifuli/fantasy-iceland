@@ -23,12 +23,15 @@ Route::get('/after-login', [HomeController::class, 'after_login']);
 Route::get('/bkash/callback', [BkashController::class, 'bkash_callback'])->name('bkash.callback');
 
 Route::get('/ticket/{id}', [HomeController::class, 'ticket'])->name('ticket');
+Route::get('/ticket/{id}/download', [HomeController::class, 'ticket_download'])->name('ticket.download');
 Route::get('/ticket/{id}/buy', [HomeController::class, 'ticket_buy'])
     ->name('ticket.buy');
 
 Route::get('/movie/{id}', [HomeController::class, 'movie'])->name('movie');
 Route::get('/movie/{id}/buy', [HomeController::class, 'movie_buy'])
     ->name('movie.buy');
+Route::get('/movie/{id}/download', [HomeController::class, 'movie_download'])
+    ->name('movie.download');
 
 Route::redirect('home', '/');
 Route::middleware(['guest'])->group(function () {

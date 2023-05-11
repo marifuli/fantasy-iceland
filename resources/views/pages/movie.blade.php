@@ -27,12 +27,17 @@
                                 $dates[] = $value->format('Y-m-d');       
                             }
                         @endphp
-                        <select name="" class="form-control">
+                        <select name="time_slot" class="form-control">
                             @foreach ($dates as $item)
                                 @foreach ($movie->time_slots as $slot)
-                                    <option value="">
-                                        {{ \Carbon\Carbon::parse($item . ' ' . $slot)->format('d F, Y, h:i a') }}
-                                    </option>
+                                    @php
+                                        $time = \Carbon\Carbon::parse($item . ' ' . $slot);
+                                    @endphp
+                                    @if($time->isFuture())
+                                        <option value="{{ $time->toISOString() }}">
+                                            {{ $time->format('d F, Y, h:i a') }}
+                                        </option>
+                                    @endif 
                                 @endforeach
                             @endforeach
                         </select>
@@ -67,7 +72,7 @@
                             @endif
                         </div>
                         <div class="mt-3 main-pay d-none">
-                            <a href="" class="btn btn-success">
+                            <a href="" _href="{{ route('movie.buy', $movie) }}" class="btn btn-success">
                                 Pay <i class="fa fa-arrow-right"></i>
                             </a>
                         </div>
@@ -86,9 +91,19 @@
             $('#seat' + id).removeClass('d-none')
         }
         function selectSeat(btn) {
-            $('.seats button').removeClass('btn-info')
-            $(btn).addClass('btn-info')
+            if($(btn).hasClass('btn-info'))
+                $(btn).removeClass('btn-info')
+            else
+                $(btn).addClass('btn-info')
             $('.main-pay').removeClass('d-none')
+            $('.main-pay a').attr(
+                'href', $('.main-pay a').attr('_href') + 
+                    '?time_slot=' + $('select[name=time_slot]').val()
+                    + '&package=' + $('.packages button.btn-info').attr('package')
+                    + '&seat=' + (
+                        [...document.querySelectorAll('.seats button.btn-info')].map(e => e.getAttribute('seat'))
+                    )
+            )
         }
     </script>
 @endsection

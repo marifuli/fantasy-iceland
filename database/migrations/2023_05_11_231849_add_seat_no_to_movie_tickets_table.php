@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('movie_tickets', function (Blueprint $table) {
             $table->string('seat_no');
+            $table->timestamp('used_at')->nullable()->change();
         });
     }
 
