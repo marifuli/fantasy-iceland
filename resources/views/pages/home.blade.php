@@ -48,9 +48,9 @@
                                 <p class="card-text">
                                     {{ $item->description }}
                                 </p>
-                                <button type="button" class="btn btn-primary">
+                                <a href="{{route('movie', $item)}}" class="btn btn-primary">
                                     View 
-                                </button>
+                                </a>
                             </div>
                         </div>    
                     </div>    

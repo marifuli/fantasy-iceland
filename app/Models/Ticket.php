@@ -18,4 +18,8 @@ class Ticket extends Model
     protected $casts = [
         'off_days_list' => 'array'
     ];
+    public function getPriceAttribute()
+    {
+        return $this->price_in_cents ? $this->price_in_cents / 100 : 0;
+    }
 }

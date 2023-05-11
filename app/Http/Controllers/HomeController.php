@@ -24,4 +24,10 @@ class HomeController extends Controller
             'ticket' => Ticket::query()->findOrFail($id),
         ]);
     }
+    public function movie($id)
+    {
+        return view('pages.movie', [
+            'movie' => Movies::query()->findOrFail($id),
+        ]);
+    }
 }

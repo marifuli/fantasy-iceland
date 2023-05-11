@@ -12,12 +12,12 @@
             aria-expanded="false"
             aria-label="Toggle navigation"
             >
-        <i class="fas fa-bars"></i>
+            <i class="fas fa-bars"></i>
         </button>
         <!-- Collapsible wrapper -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Navbar brand -->
-            <a class="navbar-brand mt-2 mt-lg-0" href="#">
+            <a class="navbar-brand mt-2 mt-lg-0" href="/">
                 Fantasy
             </a>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -37,10 +37,10 @@
                     </li>
                 @else
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Entry tickets</a>
+                        <a class="nav-link" href="/">Entry tickets</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="/">
                             Movies
                         </a>
                     </li>
@@ -51,10 +51,10 @@
         <!-- Right elements -->
         <div class="d-flex align-items-center">
             <!-- Icon -->
-            <a class="text-reset me-3" href="#">
+            {{-- <a class="text-reset me-3" href="#">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="badge rounded-pill badge-notification bg-danger">1</span>
-            </a>
+            </a> --}}
             <!-- Notifications -->
             <div class="dropdown">
                 <a
