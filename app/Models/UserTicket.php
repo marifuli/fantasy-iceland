@@ -13,4 +13,12 @@ class UserTicket extends Model
     {
         return $this->belongsTo(Ticket::class);
     } 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    } 
+    static public function user_tickets($id)
+    {
+        return self::query()->where('user_id', $id)->latest();
+    }
 }

@@ -13,4 +13,12 @@ class MovieTicket extends Model
     {
         return $this->belongsTo(Movies::class, 'movie_id');
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    } 
+    static public function user_tickets($id)
+    {
+        return self::query()->where('date', '>', now())->where('user_id', $id)->latest();
+    }
 }

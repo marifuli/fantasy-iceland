@@ -35,6 +35,11 @@
                             Hall Packages
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin.reports')}}">
+                            Reports
+                        </a>
+                    </li>
                 @else
                     <li class="nav-item">
                         <a class="nav-link" href="/">

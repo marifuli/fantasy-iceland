@@ -34,13 +34,15 @@
         </div>     
         @guest
         @else 
+            @if(auth()->user()->role !== 'admin')
             <div class="container">
-                <div class="alert alert-success">
-                    <h3>
-                        Welcome {{auth()->user()->name}}!
-                    </h3>
+                    <div class="alert alert-success">
+                        <h3>
+                            Welcome {{auth()->user()->name}}!
+                        </h3>
+                    </div>
                 </div>
-            </div>
+            @endif
         @endguest   
         @yield('content')
     </div>

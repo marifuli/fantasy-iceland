@@ -73,8 +73,8 @@ Edit movie
                     </button>
                 </div>
             </div>
-            <button class="btn btn-info">
-                Edit 
+            <button class="btn btn-info mt-3">
+                Update  
             </button>
         </form>
     </div>

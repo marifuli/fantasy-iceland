@@ -48,6 +48,9 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::prefix('admin')->name('admin.')->middleware([IsAdmin::class])
     ->group(function () {
     
+        Route::get('reports/update-status', [\App\Http\Controllers\Admin\HomeController::class, 'reports_update_status'])
+            ->name('reports.update-status');
+        Route::get('reports/{category?}', [\App\Http\Controllers\Admin\HomeController::class, 'reports'])->name('reports');
         Route::resource('tickets', \App\Http\Controllers\Admin\TicketController::class);
         Route::resource('movies', \App\Http\Controllers\Admin\MovieController::class);
         Route::resource('hall-packages', \App\Http\Controllers\Admin\HallPackageController::class);

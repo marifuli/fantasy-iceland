@@ -21,8 +21,7 @@ class HomeController extends Controller
         return view('pages.home', [
             'tickets' => Ticket::latest()->get(),
             'movies' => Movies::query()
-                ->where('start_at', '>', now())
-                ->where('end_at', '<', now())
+                ->where('end_at', '>', now())
                 ->latest()->get()
         ]);
     }
@@ -234,16 +233,16 @@ class HomeController extends Controller
         if(session('code') != $code || !$user) return abort(403);
         $id = $user->id;
         return view('pages.my_tickets', [
-            'tickets' => UserTicket::query()->where('user_id', $id)->latest()->get(),
-            'movies' => MovieTicket::query()->where('date', '>', now())->where('user_id', $id)->latest()->get(),
+            'tickets' => UserTicket::user_tickets($id)->get(),
+            'movies' => MovieTicket::user_tickets($id)->get(),
         ]);
     }
     public function my_tickets()
     {
         $id = auth()->id();
         return view('pages.my_tickets', [
-            'tickets' => UserTicket::query()->where('user_id', $id)->latest()->get(),
-            'movies' => MovieTicket::query()->where('date', '>', now())->where('user_id', $id)->latest()->get(),
+            'tickets' => UserTicket::user_tickets($id)->get(),
+            'movies' => MovieTicket::user_tickets($id)->get(),
         ]);
     }
 }
