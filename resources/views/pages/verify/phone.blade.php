@@ -3,6 +3,9 @@
     <div class="container mt-5">
         <h3 class="text-center mb-4">
             Verify Phone 
+            @if(env('APP_DEBUG'))
+                {{session('code')}}
+            @endif 
         </h3>
         <form method="POST" style="width: 90%; margin: auto; max-width: 400px">
             @csrf

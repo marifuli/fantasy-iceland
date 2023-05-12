@@ -18,7 +18,7 @@
                                 <h5 class="card-title">
                                     {{ $item->ticket->name }}
                                 </h5>
-                                <a class="btn btn-sm btn-sucess mt-3" href="{{ route('ticket.download', $item->ticket->id) }}">
+                                <a class="btn btn-sm btn-sucess mt-3" href="{{ route('ticket.download', $item->id) }}">
                                     <i class="fa fa-download"></i> Download ticket 
                                 </a>
                             </div>
@@ -42,9 +42,14 @@
                             <img src="/storage/{{ $item->movie->image }}" class="card-img-top">
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    {{ $item->movie->name }}
+                                    {{ $item->movie->name }} 
                                 </h5>
-                                <a class="btn btn-sm btn-sucess mt-3" href="{{ route('movie.download', $item->movie->id) }}" download>
+                                <p>
+                                    <small>
+                                        Seat: {{ $item->seat_no }}
+                                    </small>
+                                </p>
+                                <a class="btn btn-sm btn-sucess" href="{{ route('movie.download', $item->id) }}" >
                                     <i class="fa fa-download"></i> Download ticket 
                                 </a>
                             </div>

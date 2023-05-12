@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\UserTicket;
 use App\Services\BkashApi;
 use App\Services\MobileSMS;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -64,14 +65,14 @@ class HomeController extends Controller
     public function ticket_buy($id, Request $request)
     {
         if(!auth()->check()) {
-            session(['after_login' => $request->url()]);
+            session(['after_login' => $request->fullUrl()]);
             return redirect(route('login')); 
         }
         if(!auth()->user()->phone_verified_at)
         {
             if(!session('after_login'))
             {
-                session(['after_login' => $request->url()]);
+                session(['after_login' => $request->fullUrl()]);
             }
             return redirect(
                 route("verify.phone")
@@ -107,19 +108,20 @@ class HomeController extends Controller
     public function movie_buy($id, Request $request)
     {
         if(!auth()->check()) {
-            session(['after_login' => $request->url()]);
+            session(['after_login' => $request->fullUrl()]);
             return redirect(route('login')); 
         }
         if(!auth()->user()->phone_verified_at)
         {
             if(!session('after_login'))
             {
-                session(['after_login' => $request->url()]);
+                session(['after_login' => $request->fullUrl()]);
             }
             return redirect(
                 route("verify.phone")
             );
         }
+
         $seats = explode(',', $request->seat);
         $user = auth()->user();
         $ticket = Movies::query()->findOrFail($id);
@@ -127,6 +129,21 @@ class HomeController extends Controller
         $bkash = new BkashApi();
         $amount = ($package->price_in_cents / 100) * count($seats);
         $amount = (int) ceil($amount + (1.4 * $amount / 100));
+        $time_slot = $request->time_slot;
+        
+        foreach($seats as $seat)
+        {
+            //- check if the slot available 
+            if(
+                MovieTicket::is_booked(
+                    $ticket->id, $time_slot, $package->id, $seat 
+                )
+            )
+            {
+                return redirect()->back()->with("error", "Sorry the seat is booked, select another one");
+            }
+        }
+
         $getPaymentUrlResponse = $bkash->createPayment(
             $amount, 'Movie Ticket #' . $ticket->id, $user->phone
         );
@@ -139,7 +156,7 @@ class HomeController extends Controller
                 'product' => 'movie',
                 'metadata' => [
                     'movie' => $ticket->id,
-                    'time_slot' => $request->time_slot,
+                    'time_slot' => $time_slot,
                     'package' => $request->package,
                     'seat' => $seats,
                 ]
@@ -161,25 +178,125 @@ class HomeController extends Controller
     {
         $ticket = UserTicket::query()->findOrFail($id);
         $img_src = $ticket->ticket->base_ticket_image;
-        dump(
-            storage_path($img_src)
-        );
-        dd(
-            mime_content_type(storage_path('app/public/' . $img_src))
-        );
+        if(!$img_src) return abort(404, "Image not found!");
+        $storage = storage_path('app/public/' . $img_src);
+        $mime = mime_content_type($storage);
+        $ext = (@explode('/', $mime))[1];
+        $date = Carbon::parse($ticket->date);
 
-        header('Content-type: image/jpeg');
-        $image = imagecreatefromjpeg('image.jpg');
-        $textcolor = imagecolorallocate($image, 255, 255, 255);
-        $font_file = 'myfont.ttf';
-        $custom_text = '';
-        imagettftext($image, 225, 0, 3450, 3000, $textcolor, $font_file, $custom_text);
-        imagejpeg($image);
-        imagedestroy($image); 
+        header("Content-type: " . $mime);
+        // $imgPath = 'Movie Ticket '. $ticket->id .'.' . $ext;
+        $image = null;
+        if($ext === 'png')
+            $image = imagecreatefrompng($storage);
+        else 
+        if($ext === 'jpg')
+            $image = imagecreatefromjpeg($storage);
+        else 
+        if($ext === 'jpeg')
+            $image = imagecreatefromjpeg($storage);
+
+        $color = imagecolorallocate($image, 255, 255, 255);
+                
+        // name 
+        $string = "Ticket Number: 00000" . $ticket->id;
+        $fontSize = 5;
+        $x = 40;
+        $y = 20;
+        imagestring($image, $fontSize, $x, $y, $string, $color);
+
+        // name 
+        $string = "Date: " . Carbon::parse($ticket->date)->format('d F, Y');
+        $fontSize = 5;
+        $x = 40;
+        $y = 240;
+        imagestring($image, $fontSize, $x, $y, $string, $color);
+        // price 
+        $string = "Price: " . $ticket->ticket->price_in_cents / 100 . " Tk";
+        $fontSize = 5;
+        $x = 250;
+        $y = 240;
+        imagestring($image, $fontSize, $x, $y, $string, $color);
+
+        if($ext === 'png')
+            imagepng($image);
+        else 
+        if($ext === 'jpg' || $ext === 'jpeg')
+            imagejpeg($image);
+        exit;
     }
     public function movie_download($id)    
     {
+        $ticket = MovieTicket::query()->findOrFail($id);
+        $img_src = $ticket->movie->base_ticket_image;
+        if(!$img_src) return abort(404, "Image not found!");
+        $storage = storage_path('app/public/' . $img_src);
+        $mime = mime_content_type($storage);
+        $ext = (@explode('/', $mime))[1];
+        $date = Carbon::parse($ticket->date);
+
+        header("Content-type: " . $mime);
+        // $imgPath = 'Movie Ticket '. $ticket->id .'.' . $ext;
+        $image = null;
+        if($ext === 'png')
+            $image = imagecreatefrompng($storage);
+        else 
+        if($ext === 'jpg')
+            $image = imagecreatefromjpeg($storage);
+        else 
+        if($ext === 'jpeg')
+            $image = imagecreatefromjpeg($storage);
+
+        $color = imagecolorallocate($image, 255, 255, 255);
         
+        // name 
+        $string = "Ticket Number: 00000" . $ticket->id;
+        $fontSize = 5;
+        $x = 40;
+        $y = 20;
+        imagestring($image, $fontSize, $x, $y, $string, $color);
+
+        // name 
+        $string = "Movie: " . $ticket->movie->name;
+        $fontSize = 5;
+        $x = 40;
+        $y = 200;
+        imagestring($image, $fontSize, $x, $y, $string, $color);
+
+        // date 
+        $string = "Date: " . $date->format("d F, Y");
+        $fontSize = 5;
+        $x = 40;
+        $y = 220;
+        imagestring($image, $fontSize, $x, $y, $string, $color);
+
+        // date 
+        $string = "Show Time: " . $date->format("h:i A");
+        $fontSize = 5;
+        $x = 40;
+        $y = 240;
+        imagestring($image, $fontSize, $x, $y, $string, $color);
+        
+        // Seat  
+        $string = "Seat No: " . $ticket->seat_no;
+        $fontSize = 5;
+        $x = 300;
+        $y = 240;
+        imagestring($image, $fontSize, $x, $y, $string, $color);
+
+        // Price   
+        $string = "Price: " . HallPackage::query()->findOrFail($ticket->hall_package_id)->price_in_cents / 100 . " Tk";
+        $fontSize = 5;
+        $x = 500;
+        $y = 240;
+        imagestring($image, $fontSize, $x, $y, $string, $color);
+
+        if($ext === 'png')
+            imagepng($image);
+        else 
+        if($ext === 'jpg' || $ext === 'jpeg')
+            imagejpeg($image);
+        exit;
     }
 
     public function verify_tickets_submit(Request $request)
@@ -243,6 +360,14 @@ class HomeController extends Controller
         return view('pages.my_tickets', [
             'tickets' => UserTicket::user_tickets($id)->get(),
             'movies' => MovieTicket::user_tickets($id)->get(),
+        ]);
+    }
+    public function get_movie_empty_seats($id, $time_slot, $hall, Request $request)
+    {
+        return view('common.user-movie-package-selector', [
+            'ticket' => Movies::query()->findOrFail($id),
+            'time_slot' => $time_slot,
+            'package' => HallPackage::query()->findOrFail($hall),
         ]);
     }
 }

@@ -51,10 +51,6 @@ class BkashController extends Controller
                         $payment->user->phone . '',
                         $mess
                     );
-                    MobileSMS::send(
-                        $payment->user->phone . '',
-                        $mess,
-                    );
                     return redirect('/')->with('message', "Ticket is booked!");
                 }
                 else if($payment->product === 'movie')
@@ -62,6 +58,7 @@ class BkashController extends Controller
                     $ticket = Movies::query()->findOrFail($payment['metadata']['movie']);
                     $tickets = [];
                     $date = Carbon::parse($payment->metadata['time_slot']);
+                    $formattedDate = $date->format('Y-m-d H:i:s');
                     if(is_array($payment['metadata']['seat']))
                     {
                         foreach($payment['metadata']['seat'] as $seat)
@@ -70,7 +67,7 @@ class BkashController extends Controller
                                 'movie_id' => $ticket->id,
                                 'user_id' => $payment->user_id,
                                 'hall_package_id' => $payment['metadata']['package'],
-                                'date' => $date->format('Y-m-d H:i'),
+                                'date' => $formattedDate,
                                 'seat_no' => $seat,
                                 'hall_package_seat_id' => 0,
                             ]);    
@@ -81,7 +78,7 @@ class BkashController extends Controller
                             'movie_id' => $ticket->id,
                             'user_id' => $payment->user_id,
                             'hall_package_id' => $payment['metadata']['package'],
-                            'date' => $date->format('Y-m-d H:i'),
+                            'date' => $formattedDate,
                             'seat_no' => $payment['metadata']['seat'],
                             'hall_package_seat_id' => 0,
                         ]);
@@ -115,6 +112,6 @@ class BkashController extends Controller
                 }
             }
         }
-        return abort(403, "Payment not found!");
+        return redirect('/')->with("error", "Payment not found!");
     }
 }

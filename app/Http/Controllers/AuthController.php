@@ -33,7 +33,7 @@ class AuthController extends Controller
             Auth::login(
                 $user, true 
             );
-            return redirect()->route('home');
+            return redirect('after-login');
         }
         return redirect()->back()->withErrors(['Wrong password! Try again!'])->withInput(['emailOrPhone' => $request->emailOrPhone]);
     }
@@ -57,7 +57,7 @@ class AuthController extends Controller
                 'email' => $request->email,
             ]), true 
         );
-        return redirect()->route('home');
+        return redirect('after-login');
     }
     public function logout(Request $request)
     {

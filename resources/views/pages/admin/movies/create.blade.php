@@ -31,6 +31,12 @@ Create movie
                 </label>
                 <input type="file" accept="image/*" class="form-control" name="image" id="image1" required/>
             </div>
+            <div class="mb-4">
+                <label class="form-label" for="base_ticket_imagew">
+                    Base Ticket image:
+                </label>
+                <input type="file" accept="image/*" class="form-control" name="base_ticket_image" id="base_ticket_imagew" required/>
+            </div>
             <div class="row">
                 <div class="col-6">
                     <div class="mb-3">

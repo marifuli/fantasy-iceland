@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BkashController;
 use App\Http\Controllers\HomeController;
 use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\IsNotAdmin;
 use App\Http\Middleware\PhoneVerified;
 use Illuminate\Support\Facades\Route;
 
@@ -28,11 +29,13 @@ Route::get('/ticket/{id}', [HomeController::class, 'ticket'])->name('ticket');
 Route::get('/ticket/{id}/download', [HomeController::class, 'ticket_download'])
     ->name('ticket.download');
 Route::get('/ticket/{id}/buy', [HomeController::class, 'ticket_buy'])
-    ->name('ticket.buy');
+    ->name('ticket.buy')
+    ->middleware([IsNotAdmin::class]);
 
 Route::get('/movie/{id}', [HomeController::class, 'movie'])->name('movie');
 Route::get('/movie/{id}/buy', [HomeController::class, 'movie_buy'])
-    ->name('movie.buy');
+    ->name('movie.buy')
+    ->middleware([IsNotAdmin::class]);
 Route::get('/movie/{id}/download', [HomeController::class, 'movie_download'])
     ->name('movie.download');
 
@@ -56,3 +59,4 @@ Route::prefix('admin')->name('admin.')->middleware([IsAdmin::class])
         Route::resource('hall-packages', \App\Http\Controllers\Admin\HallPackageController::class);
 
     });
+Route::get('get_movie_empty_seats/{id}/{time_slot}/{hall}', [HomeController::class, 'get_movie_empty_seats']);

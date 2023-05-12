@@ -27,7 +27,7 @@
                                 $dates[] = $value->format('Y-m-d');       
                             }
                         @endphp
-                        <select name="time_slot" class="form-control">
+                        <select name="time_slot" class="form-control" onchange="getAvailableSeats()">
                             @foreach ($dates as $item)
                                 @foreach ($movie->time_slots as $slot)
                                     @php
@@ -57,27 +57,7 @@
                         @endforeach
                     </div>
                 </div>
-                @foreach (\App\Models\HallPackage::get() as $item)
-                    <div class="d-none mt-3 seats" id="seat{{ $item->id }}">
-                        Select Seat: 
-                        <div class="mt-3">
-                            @if (is_array($item->seats) && count($item->seats)) 
-                                @foreach ($item->seats as $seat)
-                                    <button class="btn" seat="{{ $seat }}" onclick="selectSeat(this)">
-                                        <b>
-                                            {{ $seat }}
-                                        </b>
-                                    </button>
-                                @endforeach
-                            @endif
-                        </div>
-                        <div class="mt-3 main-pay d-none">
-                            <a href="" _href="{{ route('movie.buy', $movie) }}" class="btn btn-success">
-                                Pay <i class="fa fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                @endforeach
+                <div class="mt-4 seat-container"></div>
             </div>
         </div>
     </div>
@@ -87,9 +67,31 @@
             let id = btn.getAttribute('package')
             $('.packages button').removeClass('btn-info')
             $(btn).addClass('btn-info')
-            $('.seats').addClass('d-none')
-            $('#seat' + id).removeClass('d-none')
+            getAvailableSeats(() => {
+                $('.seats').addClass('d-none')
+                $('#seat' + id).removeClass('d-none')
+            })
         }
+
+        function getAvailableSeats(callback) {
+            let id = "{{ $movie->id }}"
+            let hall = $('.packages button.btn-info').attr('package')
+            let time_slot = $('[name=time_slot]').val()
+            if(!time_slot || !hall) return 
+
+            let cont = $('.seat-container')
+            cont.html('Loading...')
+            $.get(`/get_movie_empty_seats/${id}/${time_slot}/${hall}`)
+            .then(res => {
+                document.querySelector('.seat-container').innerHTML = res 
+                if(callback) callback()
+            })
+            .catch((err) => {
+                cont.html('Failed to get seats, Try refrshingthe page')
+            })
+        }
+
+
         function selectSeat(btn) {
             if($(btn).hasClass('btn-info'))
                 $(btn).removeClass('btn-info')

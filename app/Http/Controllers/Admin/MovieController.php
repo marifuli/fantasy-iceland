@@ -46,6 +46,7 @@ class MovieController extends Controller
             'time_slots' => $request->time_slots ?? [],
             'price_in_cents' => 0 ,
             'image' => Storage::put(Movies::$image_store_path, $request->file('image')),
+            'base_ticket_image' => Storage::put(Movies::$image_store_path, $request->file('base_ticket_image')),
         ];
 
         Movies::create($data);
@@ -92,6 +93,11 @@ class MovieController extends Controller
         {
             Storage::delete($ticket->image);
             $data['image'] = Storage::put(Movies::$image_store_path, $request->file('image'));
+        }
+        if($request->file('base_ticket_image'))
+        {
+            Storage::delete($ticket->base_ticket_image);
+            $data['base_ticket_image'] = Storage::put(Movies::$image_store_path, $request->file('base_ticket_image'));
         }
 
         $ticket->update($data);

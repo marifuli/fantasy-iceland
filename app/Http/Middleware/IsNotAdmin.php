@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class PhoneVerified
+class IsNotAdmin
 {
     /**
      * Handle an incoming request.
@@ -15,15 +15,9 @@ class PhoneVerified
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!$request->user()->phone_verified_at && $request->user()->role !== 'admin')
+        if($request->user() && $request->user()->role === 'admin')
         {
-            if(!session('after_login'))
-            {
-                session(['after_login' => $request->url()]);
-            }
-            return redirect(
-                route("verify.phone")
-            );
+            return redirect('/');//abort(403, "Only users can go further!");
         }
         return $next($request);
     }
