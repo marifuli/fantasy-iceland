@@ -53,7 +53,7 @@
                 <h3>Book Your <span>Park Ticket</span></h3>
             </div>
             <div class="row">
-                @forelse ($movies as $item)
+                @forelse ($tickets as $item)
                     <div class="col-6 col-sm-4 col-md-3">
                         <div class="card">
                             <img src="/storage/{{ $item->image }}" class="card-img-top">
@@ -64,7 +64,7 @@
                                 <p class="card-text">
                                     {{ $item->description }}
                                 </p>
-                                <a href="{{route('movie', $item)}}" class="btn btn-primary">
+                                <a type="button" href="{{route('ticket', $item)}}" class="btn btn-primary">
                                     View 
                                 </a>
                             </div>
