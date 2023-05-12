@@ -39,7 +39,7 @@
 </head>
 <body>
     @include('common.navbar')
-    <div class="mt-3">
+    <div>
         {{-- <div class="container"> --}}
             @if(session()->has('message'))
                 <div class="alert alert-success">
