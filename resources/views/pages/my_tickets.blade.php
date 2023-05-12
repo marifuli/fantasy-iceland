@@ -18,7 +18,9 @@
                                 <h5 class="card-title">
                                     {{ $item->ticket->name }}
                                 </h5>
-                                <a class="btn btn-sm btn-sucess mt-3" href="{{ route('ticket.download', $item->id) }}">
+                                <a class="btn btn-sm btn-sucess mt-3" href="{{ route('ticket.download', $item->id) }}"
+                                    download="Entry ticket.{{ @explode('.', $item->ticket->base_ticket_image)[1] }}"
+                                >
                                     <i class="fa fa-download"></i> Download ticket 
                                 </a>
                             </div>
@@ -49,7 +51,9 @@
                                         Seat: {{ $item->seat_no }}
                                     </small>
                                 </p>
-                                <a class="btn btn-sm btn-sucess" href="{{ route('movie.download', $item->id) }}" >
+                                <a class="btn btn-sm btn-sucess" href="{{ route('movie.download', $item->id) }}" 
+                                    download="{{ $item->movie->name }} ticket.{{ @explode('.', $item->movie->base_ticket_image)[1] }}"
+                                >
                                     <i class="fa fa-download"></i> Download ticket 
                                 </a>
                             </div>
