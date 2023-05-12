@@ -43,12 +43,22 @@ class AuthController extends Controller
     }
     function register_store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|min:2|max:50',
-            'password' => 'required|min:2|max:50',
-            'phone' => 'required|min:11|max:11|unique:users',
-            'email' => 'max:50|unique:users',
-        ]);
+        if($request->email)
+        {
+            $request->validate([
+                'name' => 'required|min:2|max:50',
+                'password' => 'required|min:2|max:50',
+                'phone' => 'required|min:11|max:11|unique:users',
+                'email' => 'max:50|unique:users',
+            ]);
+        }else 
+        {
+            $request->validate([
+                'name' => 'required|min:2|max:50',
+                'password' => 'required|min:2|max:50',
+                'phone' => 'required|min:11|max:11|unique:users',
+            ]);
+        }
         Auth::login(
             User::create([  
                 'name' => $request->name,

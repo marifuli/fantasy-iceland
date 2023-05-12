@@ -95,12 +95,12 @@ class TicketController extends Controller
         ];
         if($request->file('image'))
         {
-            Storage::delete($ticket->image);
+            if($ticket->image) Storage::delete($ticket->image);
             $data['image'] = Storage::put(Ticket::$image_store_path, $request->file('image'));
         }
         if($request->file('base_ticket_image'))
         {
-            Storage::delete($ticket->base_ticket_image);
+            if($ticket->base_ticket_image) Storage::delete($ticket->base_ticket_image);
             $data['base_ticket_image'] = Storage::put(Ticket::$image_store_path, $request->file('base_ticket_image'));
         }
 
