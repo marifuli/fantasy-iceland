@@ -21,8 +21,8 @@ class HomeController extends Controller
         return view('pages.home', [
             'tickets' => Ticket::latest()->get(),
             'movies' => Movies::query()
-                // ->where('start_at', '>', now())
-                // ->where('end_at', '<', now())
+                ->where('start_at', '>', now())
+                ->where('end_at', '<', now())
                 ->latest()->get()
         ]);
     }
@@ -82,7 +82,7 @@ class HomeController extends Controller
         $ticket = Ticket::query()->findOrFail($id);
         $bkash = new BkashApi();
         $amount = $ticket->price;
-        $amount = $amount + (1.4 * $amount / 100);
+        $amount = (int) ceil($amount + (1.4 * $amount / 100));
         $getPaymentUrlResponse = $bkash->createPayment($amount, 'Ticket #' . $ticket->id, $user->phone);
         // dd($getPaymentUrlResponse);
         if($getPaymentUrlResponse['success']) 
@@ -127,7 +127,7 @@ class HomeController extends Controller
         $package = HallPackage::query()->findOrFail($request->package);
         $bkash = new BkashApi();
         $amount = ($package->price_in_cents / 100) * count($seats);
-        $amount = $amount + (1.4 * $amount / 100);
+        $amount = (int) ceil($amount + (1.4 * $amount / 100));
         $getPaymentUrlResponse = $bkash->createPayment(
             $amount, 'Movie Ticket #' . $ticket->id, $user->phone
         );
@@ -235,7 +235,7 @@ class HomeController extends Controller
         $id = $user->id;
         return view('pages.my_tickets', [
             'tickets' => UserTicket::query()->where('user_id', $id)->latest()->get(),
-            'movies' => MovieTicket::query()->where('user_id', $id)->latest()->get(),
+            'movies' => MovieTicket::query()->where('date', '>', now())->where('user_id', $id)->latest()->get(),
         ]);
     }
     public function my_tickets()
@@ -243,7 +243,7 @@ class HomeController extends Controller
         $id = auth()->id();
         return view('pages.my_tickets', [
             'tickets' => UserTicket::query()->where('user_id', $id)->latest()->get(),
-            'movies' => MovieTicket::query()->where('user_id', $id)->latest()->get(),
+            'movies' => MovieTicket::query()->where('date', '>', now())->where('user_id', $id)->latest()->get(),
         ]);
     }
 }

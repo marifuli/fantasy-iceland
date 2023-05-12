@@ -62,12 +62,6 @@ Create movie
                     </button>
                 </div>
             </div>
-            <div class="mb-3 mt-2">
-                <label class="form-label">
-                    Price ৳:
-                </label>
-                <input type="number" step="any" name="price" value="{{old('price')}}" class="form-control" required>
-            </div>
             <button class="btn btn-info">
                 Create
             </button>

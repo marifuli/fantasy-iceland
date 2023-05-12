@@ -36,7 +36,6 @@ class MovieController extends Controller
         $request->validate([
             'name' => 'required',
             'description' => 'required',
-            'price' => 'required',
             'image' => ['required', 'image', 'mimes:jpeg,png,jpg'],
         ]);
         $data = [
@@ -45,7 +44,7 @@ class MovieController extends Controller
             'end_at' => $request->end_at,
             'start_at' => $request->start_at,
             'time_slots' => $request->time_slots ?? [],
-            'price_in_cents' => $request->price ? $request->price * 100 : 0 ,
+            'price_in_cents' => 0 ,
             'image' => Storage::put(Movies::$image_store_path, $request->file('image')),
         ];
 
@@ -80,7 +79,6 @@ class MovieController extends Controller
         $request->validate([
             'name' => 'required',
             'description' => 'required',
-            'price' => 'required',
             'image' => ['image', 'mimes:jpeg,png,jpg'],
         ]);
         $data = [
@@ -89,7 +87,6 @@ class MovieController extends Controller
             'end_at' => $request->end_at,
             'start_at' => $request->start_at,
             'time_slots' => $request->time_slots ?? $ticket->time_slots,
-            'price_in_cents' => $request->price ? $request->price * 100 : $ticket->price_in_cents,
         ];
         if($request->file('image'))
         {

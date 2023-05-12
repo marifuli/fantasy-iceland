@@ -73,12 +73,6 @@ Edit movie
                     </button>
                 </div>
             </div>
-            <div class="mb-3 mt-2">
-                <label class="form-label">
-                    Price ৳:
-                </label>
-                <input type="number" step="any" name="price" value="{{ $movie->price_in_cents ? $movie->price_in_cents / 100 : 0 }}" class="form-control" required>
-            </div>
             <button class="btn btn-info">
                 Edit 
             </button>

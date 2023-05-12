@@ -48,7 +48,7 @@
                                     <i class="fa fa-download"></i> Download ticket 
                                 </a>
                             </div>
-                        </div>    
+                        </div>
                     </div>
                 @empty
                     <i>
