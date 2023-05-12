@@ -26,6 +26,36 @@ class HomeController extends Controller
                 ->latest()->get()
         ]);
     }
+    public function verify_phone(Request $request)
+    {
+        if(!auth()->user()->phone_verified_at)
+        {
+            if($request->code && session('code'))
+            {
+                if($request->code == session('code'))
+                {
+                    session(['code' => null]);
+                    auth()->user()->update(['phone_verified_at' => now()]);
+                    return redirect(
+                        session('after_login') ?? '/'
+                    );
+                }
+                else 
+                    $error = "Wrong OTP code!";
+            }
+            $code = rand(10_000, 99_999);
+            session(['code' => $code]);
+            $mess = "Your OTP code is: " . $code;
+            MobileSMS::send(
+                auth()->user()->phone . '',
+                $mess
+            );
+        }
+        return view('pages.verify.phone', [
+            'user' => auth()->user(),
+            'error' => $error ?? false,
+        ]);
+    }
     public function ticket($id)
     {
         return view('pages.ticket', [
@@ -38,10 +68,22 @@ class HomeController extends Controller
             session(['after_login' => $request->url()]);
             return redirect(route('login')); 
         }
+        if(!auth()->user()->phone_verified_at)
+        {
+            if(!session('after_login'))
+            {
+                session(['after_login' => $request->url()]);
+            }
+            return redirect(
+                route("verify.phone")
+            );
+        }
         $user = auth()->user();
         $ticket = Ticket::query()->findOrFail($id);
         $bkash = new BkashApi();
-        $getPaymentUrlResponse = $bkash->createPayment($ticket->price, 'Ticket #' . $ticket->id, $user->phone);
+        $amount = $ticket->price;
+        $amount = $amount + (1.4 * $amount / 100);
+        $getPaymentUrlResponse = $bkash->createPayment($amount, 'Ticket #' . $ticket->id, $user->phone);
         // dd($getPaymentUrlResponse);
         if($getPaymentUrlResponse['success']) 
         {
@@ -69,14 +111,25 @@ class HomeController extends Controller
             session(['after_login' => $request->url()]);
             return redirect(route('login')); 
         }
+        if(!auth()->user()->phone_verified_at)
+        {
+            if(!session('after_login'))
+            {
+                session(['after_login' => $request->url()]);
+            }
+            return redirect(
+                route("verify.phone")
+            );
+        }
         $seats = explode(',', $request->seat);
-
         $user = auth()->user();
         $ticket = Movies::query()->findOrFail($id);
         $package = HallPackage::query()->findOrFail($request->package);
         $bkash = new BkashApi();
+        $amount = ($package->price_in_cents / 100) * count($seats);
+        $amount = $amount + (1.4 * $amount / 100);
         $getPaymentUrlResponse = $bkash->createPayment(
-            ($package->price_in_cents / 100) * count($seats), 'Movie Ticket #' . $ticket->id, $user->phone
+            $amount, 'Movie Ticket #' . $ticket->id, $user->phone
         );
         // dd($getPaymentUrlResponse);
         if($getPaymentUrlResponse['success']) 
@@ -108,9 +161,9 @@ class HomeController extends Controller
     public function ticket_download($id)    
     {
         $ticket = UserTicket::query()->findOrFail($id);
-        $img_src = $ticket->base_ticket_image;
+        $img_src = $ticket->ticket->base_ticket_image;
         dump(
-            storage_path('app/public/' . $img_src)
+            storage_path($img_src)
         );
         dd(
             mime_content_type(storage_path('app/public/' . $img_src))

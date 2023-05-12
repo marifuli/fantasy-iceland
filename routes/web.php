@@ -4,32 +4,29 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BkashController;
 use App\Http\Controllers\HomeController;
 use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\PhoneVerified;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
 Route::get('/', [HomeController::class, 'home'])->name('home');
-Route::get('/after-login', [HomeController::class, 'after_login']);
+Route::get('/after-login', [HomeController::class, 'after_login'])
+    ->middleware([PhoneVerified::class]);
+Route::get('/verify/phone', [HomeController::class, 'verify_phone'])
+->name('verify.phone');
+Route::post('/verify/phone', [HomeController::class, 'verify_phone']);
 Route::view('/verify-tickets', 'pages.verify_tickets')->name('verify-tickets');
 Route::post('/verify-tickets', [HomeController::class, 'verify_tickets_submit']);
-Route::get('/verify-tickets/{code}', [HomeController::class, 'verify_tickets_list'])->name('verify-tickets.list');
+Route::get('/verify-tickets/{code}', [HomeController::class, 'verify_tickets_list'])        
+    ->name('verify-tickets.list');
 Route::get('/my-tickets', [HomeController::class, 'my_tickets'])
     ->name('my-tickets')
-    ->middleware(['auth']);
+    ->middleware(['auth', PhoneVerified::class]);
 
-Route::get('/bkash/callback', [BkashController::class, 'bkash_callback'])->name('bkash.callback');
+Route::get('/bkash/callback', [BkashController::class, 'bkash_callback'])
+    ->name('bkash.callback');
 
 Route::get('/ticket/{id}', [HomeController::class, 'ticket'])->name('ticket');
-Route::get('/ticket/{id}/download', [HomeController::class, 'ticket_download'])->name('ticket.download');
+Route::get('/ticket/{id}/download', [HomeController::class, 'ticket_download'])
+    ->name('ticket.download');
 Route::get('/ticket/{id}/buy', [HomeController::class, 'ticket_buy'])
     ->name('ticket.buy');
 
