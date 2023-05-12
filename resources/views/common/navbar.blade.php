@@ -1,123 +1,83 @@
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <!-- Container wrapper -->
-    <div class="container">
-        <!-- Toggle button -->
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-mdb-toggle="collapse"
-            data-mdb-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-            >
-            <i class="fas fa-bars"></i>
-        </button>
-        <!-- Collapsible wrapper -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!-- Navbar brand -->
-            <a class="navbar-brand mt-2 mt-lg-0" href="/">
-                Fantasy
-            </a>
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+<!-- ======= Top Bar ======= -->
+<section id="topbar" class="d-flex align-items-center">
+    <div class="container d-flex justify-content-center justify-content-md-between">
+        <div class="contact-info d-flex align-items-center">
+            <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:fantasy@flatknitsintl.com">contact@example.com</a></i>
+            <i class="bi bi-phone d-flex align-items-center ms-4"><span>+88017 1612 8008</span></i>
+        </div>
+        <div class="social-links d-none d-md-flex align-items-center">
+            <a href="https://www.facebook.com/fantasyislandeidfestival" class="facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="youtube"><i class="bi bi-youtube"></i></i></a>
+        </div>
+    </div>
+</section>
+<!-- ======= Header ======= -->
+<header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+        <h1 class="logo"><a href="/">Fantasy Island</a></h1>
+        <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt=""></a>-->
+        <nav id="navbar" class="navbar">
+            <ul>
                 @if(auth()->user() && auth()->user()->role === 'admin')
-                    <li class="nav-item">
+                    <li>
                         <a class="nav-link" href="{{route('admin.tickets.index')}}">Tickets</a>
                     </li>
-                    <li class="nav-item">
+                    <li>
                         <a class="nav-link" href="{{route('admin.movies.index')}}">
                             Movies
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li>
                         <a class="nav-link" href="{{route('admin.hall-packages.index')}}">
                             Hall Packages
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li>
                         <a class="nav-link" href="{{route('admin.reports')}}">
                             Reports
                         </a>
                     </li>
                 @else
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">
-                            Home 
-                        </a>
-                    </li>
                     @guest
-                        <li class="nav-item">
+                        <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+                        <li><a class="nav-link scrollto" href="#buyticket">Buy Ticket</a></li>
+                        <li><a class="nav-link scrollto" href="#about">About</a></li>
+                        <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                        <li>
                             <a class="nav-link" href="{{ route('verify-tickets') }}">
                                 Verify Tickets
                             </a>
                         </li>
                     @else 
-                        <li class="nav-item">
+                        <li>
                             <a class="nav-link" href="{{ route('my-tickets') }}">
                                 My  Tickets
                             </a>
                         </li>
                     @endguest
                 @endif 
+                <li class="dropdown">
+                    <a class=" dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        @guest
+                            Login / Register
+                        @else 
+                            <i class="fas fa-user"></i> &nbsp; {{auth()->user()->name}}
+                        @endguest
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        @guest
+                            <li><a class="dropdown-item" href="{{ route('login') }}">Login</a></li>
+                            <li><a class="dropdown-item" href="{{ route('register') }}">Register</a></li>
+                        @else 
+                            <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
+                        @endguest 
+                    </ul>
+                </li>
             </ul>
-        </div>
-        <!-- Collapsible wrapper -->
-        <!-- Right elements -->
-        <div class="d-flex align-items-center">
-            <!-- Icon -->
-            {{-- <a class="text-reset me-3" href="#">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="badge rounded-pill badge-notification bg-danger">1</span>
-            </a> --}}
-            <!-- Notifications -->
-            <div class="dropdown">
-                <a
-                    class="text-reset me-3 dropdown-toggle hidden-arrow"
-                    href="#"
-                    id="navbarDropdownMenuLink"
-                    role="button"
-                    data-mdb-toggle="dropdown"
-                    aria-expanded="false"
-                    >
-                    @guest
-                        Login / Register
-                    @else 
-                        <i class="fas fa-user"></i> {{auth()->user()->name}}
-                    @endguest
-                </a>
-                <ul
-                    class="dropdown-menu dropdown-menu-end"
-                    aria-labelledby="navbarDropdownMenuLink"
-                    >
-                    @guest
-                        <li>
-                            <a class="dropdown-item" href="{{ route('login') }}">
-                                Login 
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="{{ route('register') }}">
-                                Register 
-                            </a>
-                        </li>
-                    @else 
-                        {{-- <li>
-                            <a class="dropdown-item" href="#">
-                                Dashboard
-                            </a>
-                        </li> --}}
-                        <li>
-                            <a class="dropdown-item" href="{{ route('logout') }}">
-                                Logout  
-                            </a>
-                        </li>
-                    @endguest
-                </ul>
-            </div>
-        </div>
-        <!-- Right elements -->
+            <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav>
+        <!-- .navbar -->
     </div>
-    <!-- Container wrapper -->
-</nav>
-<!-- Navbar -->
+</header>
+<!-- End Header -->
