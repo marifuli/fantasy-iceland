@@ -30,11 +30,12 @@
                         <select name="time_slot" class="form-control" onchange="getAvailableSeats()">
                             @foreach ($dates as $item)
                                 @foreach ($movie->time_slots as $slot)
+                                    @dump($slot)
                                     @php
-                                        $time = \Carbon\Carbon::parse($item . ' ' . $slot);
+                                        $time = \Carbon\Carbon::parse($item . ' ' . $slot . ':00');
                                     @endphp
                                     @if($time->isFuture())
-                                        <option value="{{ $time->toISOString() }}">
+                                        <option value="{{ $time->format('Y-m-d H:i:s') }}">
                                             {{ $time->format('d F, Y, h:i a') }}
                                         </option>
                                     @endif 
