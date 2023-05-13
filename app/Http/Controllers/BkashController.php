@@ -22,7 +22,9 @@ class BkashController extends Controller
         // dump($response);
         if($response['success'])
         {
+            // Cache::forever('data', $response['data']);
             $data = json_decode($response['data'], true);
+            // dd($data);
             $payId = $data['paymentID'];
             $payment = BkashPayment::where('payment_id', $payId)->first();
             if($payment)
@@ -112,6 +114,7 @@ class BkashController extends Controller
                 }
             }
         }
-        return redirect('/')->with("error", "Payment not found!");
+        // dd($response);
+        return redirect('/')->with("error", $response["message"] ?? "Payment not found!");
     }
 }

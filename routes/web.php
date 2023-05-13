@@ -11,9 +11,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/after-login', [HomeController::class, 'after_login'])
     ->middleware([PhoneVerified::class]);
+
 Route::get('/verify/phone', [HomeController::class, 'verify_phone'])
-->name('verify.phone');
-Route::post('/verify/phone', [HomeController::class, 'verify_phone']);
+    ->name('verify.phone')
+    ->middleware(['auth']);
+Route::post('/verify/phone', [HomeController::class, 'verify_phone'])
+    ->middleware(['auth']);
+
 Route::view('/verify-tickets', 'pages.verify_tickets')->name('verify-tickets');
 Route::post('/verify-tickets', [HomeController::class, 'verify_tickets_submit']);
 Route::get('/verify-tickets/{code}', [HomeController::class, 'verify_tickets_list'])        

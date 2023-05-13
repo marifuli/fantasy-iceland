@@ -13,22 +13,22 @@
             @endif
             <!-- Email input -->
             <div class="form-outline mb-4">
+                <label class="form-label" for="form2Example1">Name:</label>
                 <input type="text" id="form2Example1" class="form-control" 
                     name="name" value="{{ old('name') }}" required/>
-                <label class="form-label" for="form2Example1">Name</label>
             </div>
             <div class="form-outline mb-4">
+                <label class="form-label" for="form2Example1">Phone number:</label>
                 <input type="number" id="form2Example1" class="form-control" name="phone" value="{{ old('phone') }}" required/>
-                <label class="form-label" for="form2Example1">Phone number</label>
             </div>
             <div class="form-outline mb-4">
+                <label class="form-label" for="form2Example1">Email (optional):</label>
                 <input type="email" id="form2Example1" class="form-control" name="email" value="{{ old('email') }}"/>
-                <label class="form-label" for="form2Example1">Email (optional)</label>
             </div>
             <!-- Password input -->
             <div class="form-outline mb-4">
+                <label class="form-label" for="form2Example2">Password:</label>
                 <input type="password" id="form2Example2" class="form-control" name="password" required/>
-                <label class="form-label" for="form2Example2">Password</label>
             </div>
             <!-- 2 column grid layout for inline styling -->
             {{-- <div class="row mb-4">

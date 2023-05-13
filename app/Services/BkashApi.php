@@ -171,38 +171,37 @@ class BkashApi {
 
     public function callback(Request $request)
     {
-       try {
-           $allRequest = $request->all();
-           if(isset($allRequest['status']) && $allRequest['status'] == 'failure'){
-               return ['success' => False, 'data' => null, 'message' => "Payment Failure"];
-
-           }else if(isset($allRequest['status']) && $allRequest['status'] == 'cancel'){
-
-               return ['success' => False, 'data' => null, 'message' => 'Payment Cancel'];
-           }else{
-
+        try {
+            $allRequest = $request->all();
+            if(isset($allRequest['status']) && $allRequest['status'] == 'failure') 
+            {
+               return ['success' => False, 'data' => null, 'message' => "Payment Failed"];
+            }else if(isset($allRequest['status']) && $allRequest['status'] == 'cancel') 
+            {
+               return ['success' => False, 'data' => null, 'message' => 'Payment Cancelled'];
+            }else
+            {
                $response = $this->executePayment($allRequest['paymentID']);
-
                $arr = json_decode($response,true);
 
-               if(array_key_exists("statusCode",$arr) && $arr['statusCode'] != '0000'){
-
+                if(array_key_exists("statusCode",$arr) && $arr['statusCode'] != '0000')
+                {
                    return ['success' => False, 'data' => null, 'message' => $arr['statusMessage']];
-               }else if(array_key_exists("message",$arr)){
+                }else 
+                if(array_key_exists("message",$arr))
+                {
                    // if execute api failed to response
                    sleep(1);
                    $query = $this->queryPayment($allRequest['paymentID']);
-
                    return ['success' => True, 'data' => $query, 'message' => "payment is done successfully"];
-               }
+                }
 
                return ['success' => True, 'data' => $response, 'message' => "payment is done successfully"];
-           }
+            } 
 
-       } catch (\Exception $e) {
-
+        } catch (\Throwable $e) {
            return ['success' => False, 'data' => null, 'message' => $e->getMessage()];
-       }
+        }
 
     }
 

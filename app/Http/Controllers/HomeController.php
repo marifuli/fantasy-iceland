@@ -13,6 +13,7 @@ use App\Services\BkashApi;
 use App\Services\MobileSMS;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
@@ -30,11 +31,13 @@ class HomeController extends Controller
     {
         if(!auth()->user()->phone_verified_at)
         {
+            $phone_cache_key = 'phone_sms_sent_' . auth()->user()->phone;
             if($request->code && session('code'))
             {
                 if($request->code == session('code'))
                 {
                     session(['code' => null]);
+                    Cache::forget($phone_cache_key);
                     auth()->user()->update(['phone_verified_at' => now()]);
                     return redirect(
                         session('after_login') ?? '/'
@@ -43,17 +46,24 @@ class HomeController extends Controller
                 else 
                     $error = "Wrong OTP code!";
             }
-            $code = rand(10_000, 99_999);
-            session(['code' => $code]);
-            $mess = "Your OTP code is: " . $code;
-            MobileSMS::send(
-                auth()->user()->phone . '',
-                $mess
-            );
+            if(!Cache::get($phone_cache_key))
+            {
+                $code = rand(10_000, 99_999);
+                session(['code' => $code]);
+                $mess = "Your OTP code is: " . $code;
+                MobileSMS::send(
+                    auth()->user()->phone . '',
+                    $mess
+                );
+                $sent = true;
+                Cache::put($phone_cache_key, time(), 59 * 2);
+            }
         }
         return view('pages.verify.phone', [
             'user' => auth()->user(),
             'error' => $error ?? false,
+            'cache' => isset($phone_cache_key) ? time() - (Cache::get($phone_cache_key) ?? 0) : 0,
+            'sent' => isset($sent),
         ]);
     }
     public function ticket($id)
