@@ -45,77 +45,88 @@
         </div>
     </section>
     <!-- End Featured Services Section -->
-    <!-- ======= park Ticket Section ======= -->
-    <section id="buyticket" class="featured-services">
-        <div class="container" data-aos="fade-up">
-            <div class="section-title">
-                <h2>Ticket</h2>
-                <h3>Book Your <span>Park Ticket</span></h3>
-            </div>
-            <div class="row">
-                @forelse ($tickets as $item)
-                    <div class="col-6 col-sm-4 col-md-3">
-                        <div class="card">
-                            <img src="/storage/{{ $item->image }}" class="card-img-top">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    {{ $item->name }}
-                                </h5>
-                                <p class="card-text">
-                                    {{ $item->description }}
-                                </p>
-                                <a type="button" href="{{route('ticket', $item)}}" class="btn btn-primary">
-                                    View 
-                                </a>
-                            </div>
-                        </div>    
-                    </div>    
-                @empty
-                    <div class="col-6 col-sm-4 col-md-3">
-                        <i>
-                            No ticket found!
-                        </i>
-                    </div>
-                @endforelse 
-            </div>
+    <div class="container">
+
+      <section class="row">
+        <div class="col-md-6">
+          <!-- ======= park Ticket Section ======= -->
+          <section id="buyticket" class="featured-services">
+              <div class="container" data-aos="fade-up">
+                  <div class="section-title">
+                      <h2>Ticket</h2>
+                      <h3>Book Your <span>Park Ticket</span></h3>
+                  </div>
+                  <div class="row">
+                      @forelse ($tickets as $item)
+                          <div class="col-sm-6 col-md-4">
+                              <div class="card">
+                                  <img src="/storage/{{ $item->image }}" class="card-img-top">
+                                  <div class="card-body">
+                                      <h5 class="card-title">
+                                          {{ $item->name }}
+                                      </h5>
+                                      <p class="card-text">
+                                          {{ $item->description }}
+                                      </p>
+                                      <a type="button" href="{{route('ticket', $item)}}" class="btn btn-primary">
+                                          View 
+                                      </a>
+                                  </div>
+                              </div>    
+                          </div>    
+                      @empty
+                          <div class="col-6 col-sm-4 col-md-3">
+                              <i>
+                                  No ticket found!
+                              </i>
+                          </div>
+                      @endforelse 
+                  </div>
+              </div>
+          </section>
         </div>
-    </section>
-    <!-- End park Ticket Section -->
-    <!-- ======= Movie Ticket Section ======= -->
-    <section id="" class="featured-services">
-        <div class="container" data-aos="fade-up">
-            <div class="section-title">
-                <h3>Book Your <span>Movie Ticket</span></h3>
-            </div>
-            <div class="row">
-                @forelse ($movies as $item)
-                    <div class="col-6 col-sm-4 col-md-3">
-                        <div class="card">
-                            <img src="/storage/{{ $item->image }}" class="card-img-top">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    {{ $item->name }}
-                                </h5>
-                                <p class="card-text">
-                                    {{ $item->description }}
-                                </p>
-                                <a href="{{route('movie', $item)}}" class="btn btn-primary">
-                                    View 
-                                </a>
-                            </div>
-                        </div>    
-                    </div>    
-                @empty
-                    <div class="col-6 col-sm-4 col-md-3">
-                        <i>
-                            No ticket found!
-                        </i>
-                    </div>
-                @endforelse 
-            </div>
+        <div class="col-md-6">
+          <!-- ======= Movie Ticket Section ======= -->
+          <section id="movieTicket" class="featured-services">
+              <div class="container" data-aos="fade-up">
+                  <div class="section-title">
+                      {{-- <h2>&nbsp;</h2> --}}
+                      <h3>Book Your <span>Movie Ticket</span></h3>
+                  </div>
+                  <div class="row">
+                      @forelse ($movies as $item)
+                          <div class="col-sm-6 col-md-4">
+                              <div class="card">
+                                  <img src="/storage/{{ $item->image }}" class="card-img-top">
+                                  <div class="card-body">
+                                      <h5 class="card-title">
+                                          {{ $item->name }}
+                                      </h5>
+                                      <p class="card-text">
+                                          {{ $item->description }}
+                                      </p>
+                                      <a href="{{route('movie', $item)}}" class="btn btn-primary">
+                                          View 
+                                      </a>
+                                  </div>
+                              </div>    
+                          </div>    
+                      @empty
+                          <div class="col-6 col-sm-4 col-md-3">
+                              <i>
+                                  No ticket found!
+                              </i>
+                          </div>
+                      @endforelse 
+                  </div>
+              </div>
+          </section>
+          <!-- End Movie Ticket Section --> 
         </div>
-    </section>
-    <!-- End Movie Ticket Section -->
+        <!-- End park Ticket Section --> 
+      </section>
+    </div>
+    
     <!-- ======= Portfolio Section ======= 
         <section id="portfolio" class="portfolio">
           <div class="container" data-aos="fade-up">

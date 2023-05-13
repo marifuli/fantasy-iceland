@@ -34,14 +34,16 @@ class HomeController extends Controller
             $phone_cache_key = 'phone_sms_sent_' . auth()->user()->phone;
             if($request->code && session('code'))
             {
+                // dd($request->code, session('code'));
                 if($request->code == session('code'))
                 {
                     session(['code' => null]);
                     Cache::forget($phone_cache_key);
                     auth()->user()->update(['phone_verified_at' => now()]);
+                    // dd(session('after_login'));
                     return redirect(
                         session('after_login') ?? '/'
-                    );
+                    )->with('message', "Phone number verified!");
                 }
                 else 
                     $error = "Wrong OTP code!";
@@ -58,6 +60,8 @@ class HomeController extends Controller
                 $sent = true;
                 Cache::put($phone_cache_key, time(), 59 * 2);
             }
+        }else {
+            return redirect(session('after_login') ?? '/')->with('message', "Phone number verified!");
         }
         return view('pages.verify.phone', [
             'user' => auth()->user(),

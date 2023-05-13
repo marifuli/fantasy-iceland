@@ -17,10 +17,10 @@ class PhoneVerified
     {
         if(!$request->user()->phone_verified_at && $request->user()->role !== 'admin')
         {
-            if(!session('after_login'))
-            {
+            // if(!session('after_login'))
+            // {
                 session(['after_login' => $request->url()]);
-            }
+            // }
             return redirect(
                 route("verify.phone")
             );

@@ -34,12 +34,12 @@ Route::get('/ticket/{id}/download', [HomeController::class, 'ticket_download'])
     ->name('ticket.download');
 Route::get('/ticket/{id}/buy', [HomeController::class, 'ticket_buy'])
     ->name('ticket.buy')
-    ->middleware([IsNotAdmin::class]);
+    ->middleware([IsNotAdmin::class, PhoneVerified::class]);
 
 Route::get('/movie/{id}', [HomeController::class, 'movie'])->name('movie');
 Route::get('/movie/{id}/buy', [HomeController::class, 'movie_buy'])
     ->name('movie.buy')
-    ->middleware([IsNotAdmin::class]);
+    ->middleware([IsNotAdmin::class, PhoneVerified::class]);
 Route::get('/movie/{id}/download', [HomeController::class, 'movie_download'])
     ->name('movie.download');
 
