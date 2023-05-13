@@ -45,7 +45,7 @@ class HomeController extends Controller
                         session('after_login') ?? '/'
                     )->with('message', "Phone number verified!");
                 }
-                else 
+                else
                     $error = "Wrong OTP code!";
             }
             if(!Cache::get($phone_cache_key))
@@ -315,52 +315,75 @@ class HomeController extends Controller
 
     public function verify_tickets_submit(Request $request)
     {
+        $numberOrMail = $request->emailOrPhone ?? session('phone');
+        // dd($request->emailOrPhone, session('phone'));
+        if($numberOrMail) session(['phone' => $numberOrMail]);
+        $phone_cache_key = 'phone_sms_sent_' . $numberOrMail;
         if($request->check_otp)
         {
             if(session('code') == $request->check_otp)
             {
+                Cache::forget($phone_cache_key);
                 return redirect()->route('verify-tickets.list', $request->check_otp);
-            }else 
+            }else
             {
-                $err = "Wrong OTP code";
                 return view('pages.verify_tickets', [
-                    'emailOrPhone' => $request->emailOrPhone, 'err' => $err ?? null,
+                    'emailOrPhone' => $numberOrMail, 
+                    'err' => "Wrong OTP code",
+                    'cache' => isset($phone_cache_key) ? time() - (Cache::get($phone_cache_key) ?? 0) : 0,
+                    'sent' => isset($sent),
                 ]);
             }
         }
-        $numberOrMail = $request->emailOrPhone;
-        $user = User::where('email', $request->emailOrPhone)->orWhere('phone', $numberOrMail)->first();
+        $user = User::where('email', $numberOrMail)
+            ->orWhere('phone', $numberOrMail)
+            ->first();
         if(!$user)
         {
             return redirect()->back()->withErrors(["User not found!"]);
         }
-        $code = rand(10_000, 99_999);
-        session(['code' => $code]);
-        session(['phone' => $numberOrMail]);
-        $mess = "Your OTP code is: " . $code;
         if(
-            $numberOrMail 
-            && filter_var($numberOrMail, FILTER_VALIDATE_EMAIL)
+            !Cache::get($phone_cache_key) 
         )
         {
-            Mail::raw($mess, function($message) use($numberOrMail) {
-                $message->subject("Fantasy Island")->to($numberOrMail);
-            });
-        }else {
-            MobileSMS::send(
-                $numberOrMail . '',
-                $mess
-            );
+            $code = rand(10_000, 99_999);
+            session(['code' => $code]);
+            session(['phone' => $numberOrMail]);
+            $mess = "Your OTP code is: " . $code;
+
+            if(
+                $numberOrMail 
+                && filter_var($numberOrMail, FILTER_VALIDATE_EMAIL)
+            )
+            {
+                Mail::raw($mess, function($message) use($numberOrMail) {
+                    $message->subject("Fantasy Island")->to($numberOrMail);
+                });
+            }else {
+                MobileSMS::send(
+                    $numberOrMail . '',
+                    $mess
+                );
+            }
+            $sent = true;
+            Cache::put($phone_cache_key, time(), 59 * 2);
         }
 
         return view('pages.verify_tickets', [
-            'emailOrPhone' => $numberOrMail, 'error' => $err ?? null,
+            'emailOrPhone' => $numberOrMail, 
+            'error' => $err ?? null,
+            'cache' => isset($phone_cache_key) ? time() - (Cache::get($phone_cache_key) ?? 0) : 0,
+            'sent' => isset($sent),
         ]);
     }
     public function verify_tickets_list($code)
     {
         $numberOrMail = session('phone');
-        $user = User::where('email', $numberOrMail)->orWhere('phone', $numberOrMail)->first();
+        // dd($numberOrMail);
+        $user = User::where('email', $numberOrMail)
+            ->orWhere('phone', $numberOrMail)
+            ->first();
+        // dd(session('code'), $code, $user);
         if(session('code') != $code || !$user) return abort(403);
         $id = $user->id;
         return view('pages.my_tickets', [

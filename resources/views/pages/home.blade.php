@@ -90,7 +90,7 @@
           <section id="movieTicket" class="featured-services">
               <div class="container" data-aos="fade-up">
                   <div class="section-title">
-                      {{-- <h2>&nbsp;</h2> --}}
+                      <h2>Ticket</h2>
                       <h3>Book Your <span>Movie Ticket</span></h3>
                   </div>
                   <div class="row">
