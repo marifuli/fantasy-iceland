@@ -8,13 +8,13 @@ class MobileSMS {
         string $reciever, string $message, 
     )
     {
-        Http::post(
-            "https://sms.brainwavebd.com/api/sms/send", [
-                "apiKey" => env('SMS_BRAINWAVEBD_API_KEY'),
-                "contactNumbers" => $reciever,
-                "senderId" => "BulkSms",
-                "textBody" => $message
-            ]
+        Http::get(
+            "https://sms.brainwavebd.com/api/sms/send?" . join('&', [
+                "apiKey=" . env('SMS_BRAINWAVEBD_API_KEY'),
+                "contactNumbers=" . $reciever,
+                "senderId=" . "BulkSms",
+                "textBody=" . urlencode($message)
+            ])
         );
     }
 }
