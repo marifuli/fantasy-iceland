@@ -45,7 +45,7 @@
                     <script>
                         let time_passed = {{ $cache }}
                         let interval = setInterval(() => {
-                            if(time_passed === (60 * 2))
+                            if(time_passed === (60 * 1))
                             {
                                 $('.send-again').html(`<a class="btn btn-info" href="">Send again</a>`)
                                 clearInterval(interval)

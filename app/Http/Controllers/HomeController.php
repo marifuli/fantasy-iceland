@@ -58,7 +58,7 @@ class HomeController extends Controller
                     $mess
                 );
                 $sent = true;
-                Cache::put($phone_cache_key, time(), 59 * 2);
+                Cache::put($phone_cache_key, time(), 59 * 1);
             }
         }else {
             return redirect(session('after_login') ?? '/')->with('message', "Phone number verified!");
@@ -366,7 +366,7 @@ class HomeController extends Controller
                 );
             }
             $sent = true;
-            Cache::put($phone_cache_key, time(), 59 * 2);
+            Cache::put($phone_cache_key, time(), 59 * 1);
         }
 
         return view('pages.verify_tickets', [
