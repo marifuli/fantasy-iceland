@@ -2,20 +2,24 @@
 <section id="topbar" class="d-flex align-items-center">
     <div class="container d-flex justify-content-center justify-content-md-between">
         <div class="contact-info d-flex align-items-center">
-            <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:fantasy@flatknitsintl.com">contact@example.com</a></i>
+            <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:fantasy@flatknitsintl.com">fantasy@flatknitsintl.com</a></i>
             <i class="bi bi-phone d-flex align-items-center ms-4"><span>+88017 1612 8008</span></i>
         </div>
         <div class="social-links d-none d-md-flex align-items-center">
             <a href="https://www.facebook.com/fantasyislandeidfestival" class="facebook"><i class="bi bi-facebook"></i></a>
             <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="youtube"><i class="bi bi-youtube"></i></i></a>
+            <a href="https://www.youtube.com/@flatknitinternational4668" class="youtube"><i class="bi bi-youtube"></i></i></a>
         </div>
     </div>
 </section>
 <!-- ======= Header ======= -->
 <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
-        <h1 class="logo"><a href="/">Fantasy Island</a></h1>
+        <h1 class="logo">
+            <a href="/">Fantasy Island</a>
+            <br>
+            <span style="font-size: 14px">Uttara</span>
+        </h1>
         <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt=""></a>-->
         <nav id="navbar" class="navbar">
             <ul>
@@ -40,10 +44,10 @@
                     </li>
                 @else
                     @guest
-                        <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-                        <li><a class="nav-link scrollto" href="#movieTicket">Movie Ticket</a></li>
-                        <li><a class="nav-link scrollto" href="#about">About</a></li>
-                        <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                        <li><a class="nav-link scrollto active" href="/#hero">Home</a></li>
+                        <li><a class="nav-link scrollto" href="/#movieTicket">Movie Ticket</a></li>
+                        <li><a class="nav-link scrollto" href="/#about">About</a></li>
+                        <li><a class="nav-link scrollto" href="/#contact">Contact</a></li>
                         <li>
                             <a class="nav-link" href="{{ route('verify-tickets') }}">
                                 Verify Tickets
