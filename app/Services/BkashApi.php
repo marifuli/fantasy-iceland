@@ -9,9 +9,9 @@ class BkashApi {
     public function __construct()
     {
         // Sandbox
-        $this->base_url = 'https://tokenized.sandbox.bka.sh/v1.2.0-beta';
+        // $this->base_url = 'https://tokenized.sandbox.bka.sh/v1.2.0-beta';
         // Live
-        //$this->base_url = 'https://tokenized.pay.bka.sh/v1.2.0-beta';
+        $this->base_url = 'https://tokenized.pay.bka.sh/v1.2.0-beta';
     }
 
     public function authHeaders(){
