@@ -37,8 +37,9 @@ class BkashController extends Controller
                         'user_id' => $payment->user_id,
                         'date' => Carbon::parse($payment->metadata['date']),
                     ]);
-                    $mess = "Dear customer, Your entry Fantasy Island Entry ticket has been purchased successfully. 
-                    \n Click here to download the ticket: ". route('ticket.download', $ticket) ."
+                    $mess = "Dear customer, Your Fantasy Island Entry ticket has been purchased successfully. 
+                    \nClick here to download the ticket: 
+                    \n". route('ticket.download', $ticket) ."
                     ";
                     if(
                         $payment->user->email 
@@ -88,13 +89,13 @@ class BkashController extends Controller
                     $links = "";
                     foreach($tickets as $tick)
                     {
-                        $links .= "\n " . route('movie.download', $tick);
+                        $links .= "\n" . route('movie.download', $tick);
                     }
                     $mess = "Dear customer, Your have booked ticket".( count($tickets) > 1 ? 's' : '' )." of ". $ticket->name ." of Fantasy Island Magic Movie Theater successfully. 
-                    \n Date: ".( $date->format('d F, Y') )."
-                    \n Show Time: ".( $date->format('h:i a') )."
-                    \n Seats: ".( is_array($payment['metadata']['seat']) ? join(',', $payment['metadata']['seat']) : $payment['metadata']['seat'])."
-                    \n Click here to download the ticket".( count($tickets) > 1 ? 's' : '' ).": ". (
+                    \nDate: ".( $date->format('d F, Y') )."
+                    \nShow Time: ".( $date->format('h:i a') )."
+                    \nSeats: ".( is_array($payment['metadata']['seat']) ? join(',', $payment['metadata']['seat']) : $payment['metadata']['seat'])."
+                    \nClick here to download the ticket".( count($tickets) > 1 ? 's' : '' ).": ". (
                         $links
                     );
                     if(
