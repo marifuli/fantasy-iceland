@@ -15,7 +15,7 @@ class PhoneVerified
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!$request->user()->phone_verified_at && $request->user()->role !== 'admin')
+        if($request->user() && !$request->user()->phone_verified_at && $request->user()->role !== 'admin')
         {
             // if(!session('after_login'))
             // {
