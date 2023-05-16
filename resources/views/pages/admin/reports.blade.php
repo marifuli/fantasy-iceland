@@ -30,7 +30,7 @@
         </ul>
         <div class="mt-4 mb-3">
             <form action="" method="get">
-                Select Date Range: 
+                Select  Purchase Date Range: 
                 <input type="text" class="date" name="from" value="{{ $from->format('d-m-Y') }}">
                 <span class="badge text-dark">to</span>
                 <input type="text" class="date" name="to" value="{{ $to->format('d-m-Y') }}">
@@ -52,6 +52,9 @@
                     </th>
                     <th>
                         Phone 
+                    </th>
+                    <th>
+                        Purchased at 
                     </th>
                     @if ($category === 'entry')
                         <th>
@@ -90,6 +93,9 @@
                         </td>
                         <td>
                             {{$item->user->phone}}
+                        </td>
+                        <td>
+                            {{$item->created_at->format('d F,Y h:i A')}}
                         </td>
                         @if ($category === 'entry')
                             <th>

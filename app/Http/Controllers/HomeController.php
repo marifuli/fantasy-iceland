@@ -94,9 +94,10 @@ class HomeController extends Controller
             );
         }
         $user = auth()->user();
+        $quantity = (int) ($request->quantity && is_numeric($request->quantity)) ? $request->quantity : 1;
         $ticket = Ticket::query()->findOrFail($id);
         $bkash = new BkashApi();
-        $amount = $ticket->price;
+        $amount = $ticket->price * $quantity;
         $amount = (int) ceil($amount + (1.4 * $amount / 100));
         $getPaymentUrlResponse = $bkash->createPayment($amount, 'Ticket #' . $ticket->id, $user->phone);
         // dd($getPaymentUrlResponse);
@@ -109,7 +110,7 @@ class HomeController extends Controller
                 'metadata' => [
                     'date' => $request->date,
                     'ticket' => $ticket->id,
-                    'quantity' => $request->quantity ?? 1,
+                    'quantity' => $quantity,
                     'price' => $amount,
                 ]
             ]);
