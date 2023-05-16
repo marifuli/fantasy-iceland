@@ -36,6 +36,8 @@ class BkashController extends Controller
                         'ticket_id' => $ticket->id,
                         'user_id' => $payment->user_id,
                         'date' => Carbon::parse($payment->metadata['date']),
+                        'price' => $payment['metadata']['price'],
+                        'quantity' => $payment['metadata']['quantity'],
                     ]);
                     $mess = "Dear customer, Your Fantasy Island Entry ticket has been purchased successfully. 
                     \nClick here to download the ticket: 
@@ -73,6 +75,7 @@ class BkashController extends Controller
                                 'date' => $formattedDate,
                                 'seat_no' => $seat,
                                 'hall_package_seat_id' => 0,
+                                'price' => $payment['metadata']['price'],
                             ]);    
                         }                        
                     }
@@ -84,6 +87,7 @@ class BkashController extends Controller
                             'date' => $formattedDate,
                             'seat_no' => $payment['metadata']['seat'],
                             'hall_package_seat_id' => 0,
+                            'price' => $payment['metadata']['price'],
                         ]);
                     }
                     $links = "";

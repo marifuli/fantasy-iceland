@@ -259,7 +259,7 @@
     </section>
     <!-- End About Section -->
     <!-- ======= Testimonials Section ======= -->
-    <div class="section-title" style="padding-top: 50px;">
+    <div class="section-title d-none" style="padding-top: 50px;">
         <h2>Testimonial</h2>
         <h3>Clients <span>Review</span></h3>
     </div>

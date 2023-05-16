@@ -58,6 +58,8 @@ Route::prefix('admin')->name('admin.')->middleware([IsAdmin::class])
         Route::get('reports/update-status', [\App\Http\Controllers\Admin\HomeController::class, 'reports_update_status'])
             ->name('reports.update-status');
         Route::get('reports/{category?}', [\App\Http\Controllers\Admin\HomeController::class, 'reports'])->name('reports');
+        Route::delete('reports/movie/{id}', [\App\Http\Controllers\Admin\HomeController::class, 'reports_movie_delete'])->name('reports.delete.movie');
+        Route::delete('reports/ticket/{id}', [\App\Http\Controllers\Admin\HomeController::class, 'reports_ticket_delete'])->name('reports.delete.ticket');
         Route::resource('tickets', \App\Http\Controllers\Admin\TicketController::class);
         Route::resource('movies', \App\Http\Controllers\Admin\MovieController::class);
         Route::resource('hall-packages', \App\Http\Controllers\Admin\HallPackageController::class);

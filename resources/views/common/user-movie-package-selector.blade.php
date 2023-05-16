@@ -9,6 +9,12 @@
                 @endphp
                 @foreach ($item->seats as $seat)
                     @if(
+                        !\Cache::get(
+                            "hall_package_id" . $package->id .
+                            "movie_id" . $ticket->id .
+                            "date" . \Carbon\Carbon::parse($time_slot)->format('Y-m-d H:i:s') .
+                            "seat_no" . $seat
+                        ) &&
                         !\App\Models\MovieTicket::is_booked(
                             $ticket->id, $time_slot, $package->id, $seat
                         )

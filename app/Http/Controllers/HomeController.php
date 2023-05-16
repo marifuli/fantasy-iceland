@@ -78,6 +78,7 @@ class HomeController extends Controller
     }
     public function ticket_buy($id, Request $request)
     {
+        // dd($request->quantity);
         if(!auth()->check()) {
             session(['after_login' => $request->fullUrl()]);
             return redirect(route('login')); 
@@ -108,6 +109,8 @@ class HomeController extends Controller
                 'metadata' => [
                     'date' => $request->date,
                     'ticket' => $ticket->id,
+                    'quantity' => $request->quantity ?? 1,
+                    'price' => $amount,
                 ]
             ]);
             return redirect($getPaymentUrlResponse['data']['data']);
@@ -144,11 +147,28 @@ class HomeController extends Controller
         $amount = ($package->price_in_cents / 100) * count($seats);
         $amount = (int) ceil($amount + (1.4 * $amount / 100));
         $time_slot = $request->time_slot;
-        
+
+        $date = Carbon::parse($time_slot);
+        $formattedDate = $date->format('Y-m-d H:i:s');
+        $key = "hall_package_id" . $package->id .
+            "movie_id" . $ticket->id .
+            "date" . $formattedDate;
+
         foreach($seats as $seat)
         {
             //- check if the slot available 
+            $cache_found = false;
+            foreach($seats as $seat) 
+            {
+                if(
+                    Cache::get($key . "seat_no" . $seat)
+                )
+                {
+                    $cache_found = true;
+                }
+            }
             if(
+                $cache_found ||
                 MovieTicket::is_booked(
                     $ticket->id, $time_slot, $package->id, $seat 
                 )
@@ -157,7 +177,7 @@ class HomeController extends Controller
                 return redirect()->back()->with("error", "Sorry the seat is booked, select another one");
             }
         }
-
+        foreach($seats as $seat) Cache::put($key . "seat_no" . $seat, 1, 60 * 10);
         $getPaymentUrlResponse = $bkash->createPayment(
             $amount, 'Movie Ticket #' . $ticket->id, $user->phone
         );
@@ -173,10 +193,13 @@ class HomeController extends Controller
                     'time_slot' => $time_slot,
                     'package' => $request->package,
                     'seat' => $seats,
+                    'quantity' => 1,
+                    'price' => $amount,
                 ]
             ]);
             return redirect($getPaymentUrlResponse['data']['data']);
         }
+        // dd($getPaymentUrlResponse);
     }
     public function after_login()
     {
@@ -225,10 +248,17 @@ class HomeController extends Controller
         $x = 40;
         $y = 240;
         imagestring($image, $fontSize, $x, $y, $string, $color);
+
+        $string = "Qty: " . $ticket->quantity;
+        $fontSize = 5;
+        $x = 250;
+        $y = 240;
+        imagestring($image, $fontSize, $x, $y, $string, $color);
+
         // price 
         $string = "Price: " . $ticket->ticket->price_in_cents / 100 . " Tk";
         $fontSize = 5;
-        $x = 250;
+        $x = 360;
         $y = 240;
         imagestring($image, $fontSize, $x, $y, $string, $color);
 

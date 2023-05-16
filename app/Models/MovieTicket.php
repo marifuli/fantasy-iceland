@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class MovieTicket extends Model
 {
@@ -27,10 +28,17 @@ class MovieTicket extends Model
     {
         $date = Carbon::parse($time_slot);
         $formattedDate = $date->format('Y-m-d H:i:s');
-        return !!self::query()->where('hall_package_id', $hall_package_id)
+        $key = "hall_package_id" . $hall_package_id .
+            "movie_id" . $movie_id .
+            "date" . $formattedDate .
+            "seat_no" . $seat_no ;
+        return (
+            !Cache::get($key) &&
+            self::query()->where('hall_package_id', $hall_package_id)
             ->where('movie_id', $movie_id)
             ->where('date', $formattedDate)
             ->where('seat_no', $seat_no)
-            ->first();
+            ->first()
+        );
     }
 }

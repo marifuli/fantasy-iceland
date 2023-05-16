@@ -58,4 +58,16 @@ class HomeController extends Controller
         $ticket->update(['used_at' => $used ? now() : null]);
         return redirect()->back()->with('message', "Ticket update to ". ($used ? ' used' : ' not used'));    
     }
+    public function reports_ticket_delete($id)
+    {
+        $ti = UserTicket::query()->findOrFail($id);
+        $ti->delete();
+        return redirect()->back()->with('message', "Ticket deleted ");  
+    }
+    public function reports_movie_delete($id)
+    {
+        $ti = MovieTicket::query()->findOrFail($id);
+        $ti->delete();
+        return redirect()->back()->with('message', "Ticket deleted ");          
+    }
 }

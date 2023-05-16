@@ -68,6 +68,15 @@
                     <th>
                         Used
                     </th>
+                    <th>
+                        Qty 
+                    </th>
+                    <th>
+                        Price 
+                    </th>
+                    <th>
+                        Action
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -99,6 +108,33 @@
                                 <option @if($item->used_at) selected @endif value="yes">Yes</option>
                                 <option @if(!$item->used_at) selected @endif value="no">No</option>
                             </select>
+                        </th>
+                        <th>
+                            @if ($category === 'entry')
+                                {{ $item->quantity }}
+                            @else 
+                                1 
+                            @endif
+                        </th>
+                        <th>
+                            {{$item->price}} Tk
+                        </th>
+                        <th>
+                            <button class="btn btn-sm btn-danger" 
+                                onclick="if(confirm('Do you really want to delete this ticket?')){document.querySelector('#dele{{$item->id}}').submit()}"
+                            >
+                                Delete 
+                            </button>
+                            <form 
+                                id="dele{{$item->id}}"
+                                action="{{ 
+                                    ($category === 'entry')
+                                        ? route('admin.reports.delete.ticket', $item->id) 
+                                        : route('admin.reports.delete.movie', $item->id) 
+                                }}" method="POST">
+                                @method('DELETE')
+                                @csrf
+                            </form>
                         </th>
                     </tr>
                 @empty

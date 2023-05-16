@@ -22,6 +22,21 @@
                 </button>
                 <div class="d-none select-date mt-3">
                     <label for="">
+                        Quantity: 
+                    </label>
+                    <div class="mb-4 d-flex mt-2">
+                        <span class="btn" onclick="dec()">
+                            <i class="fa fa-minus"></i>
+                        </span>
+                        <input value="1" type="number" style="width: 100px" class="form-control quantity"
+                            name="quantity"
+                            onkeyup="cahngedDate($('.date')[0])"
+                        >
+                        <span class="btn" onclick="inc()">
+                            <i class="fa fa-plus"></i>
+                        </span>
+                    </div>
+                    <label for="">
                         Select Date: 
                     </label>
                     <div>
@@ -56,7 +71,7 @@
         function cahngedDate(input) {
             let val = input.value 
             const mom = moment(val, 'DD-MM-YYYY')
-            console.log(val);
+            // console.log(val);
             if(
                 OFF_DAYS.includes(val) || mom.isBefore()
             )
@@ -66,10 +81,26 @@
             {
                 $('.pay').removeClass('d-none')
                 $('.pay a').attr(
-                    'href', $('.pay a').attr('_href') + '?date=' + val.replaceAll('/', '-') 
+                    'href', $('.pay a').attr('_href') + '?date=' + val.replaceAll('/', '-') + "&quantity=" + $('.quantity').val()
                 )
                 $('.pay a')[0].focus()
             }
         }   
+        function inc() {
+            let input = $('.quantity').val()
+            // if(input < 100)
+            // {
+                $('.quantity').val(parseInt(input) + 1)
+                cahngedDate($('.date')[0])
+            // }
+        }
+        function dec() {
+            let input = $('.quantity').val()
+            if(input > 1)
+            {
+                $('.quantity').val(input - 1)
+                cahngedDate($('.date')[0])
+            }
+        }
     </script>
 @endsection
