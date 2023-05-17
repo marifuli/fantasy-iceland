@@ -21,6 +21,11 @@
                 <label class="form-label" for="form2Example2">Password:</label>
                 <input type="password" id="form2Example2" class="form-control" name="password" />
             </div>
+            <div class="text-end">
+                <a href="{{ route('forgot.password') }}" class="btn-link">
+                    Forgot password?
+                </a>
+            </div>
             <!-- 2 column grid layout for inline styling -->
             {{-- <div class="row mb-4">
                 <div class="col d-flex justify-content-center">

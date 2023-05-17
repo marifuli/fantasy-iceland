@@ -14,6 +14,7 @@ use App\Services\MobileSMS;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
@@ -344,6 +345,42 @@ class HomeController extends Controller
         exit;
     }
 
+    public function reset_pass($code, Request $request) 
+    {
+        abort_if(session('code') != $code, 403, "Wrong code");
+        return view('pages.forgot-pass.reset');
+    }
+    public function reset_pass_submit($code, Request $request) 
+    {
+        abort_if(session('code') != $code, 403, "Wrong code");
+        $request->validate([
+            'password' => 'min:6|max:32|same:password_confirmation',
+            'password_confirmation' => 'min:6|max:32'
+        ]);
+        $user = User::query()->where('phone', session('phone'))->firstOrFail();
+        $user->password = Hash::make($request->password);
+        return redirect()->route('login')->with('message', "Password changed!");
+    }
+    public function verify_tickets()
+    {
+        session(['phone' => null]);
+        session(['forgot_pass' => null]);
+        return view('pages.verify_tickets', [
+            'error' => $err ?? null,
+            'cache' => 0,
+            'sent' => isset($sent),
+        ]);
+    }
+    public function forgot_pass()
+    {
+        session(['phone' => null]);
+        session(['forgot_pass' => 1]);
+        return view('pages.verify_tickets', [
+            'error' => $err ?? null,
+            'cache' => 0,
+            'sent' => isset($sent),
+        ]);
+    }
     public function verify_tickets_submit(Request $request)
     {
         $numberOrMail = $request->emailOrPhone ?? session('phone');
@@ -355,7 +392,10 @@ class HomeController extends Controller
             if(session('code') == $request->check_otp)
             {
                 Cache::forget($phone_cache_key);
-                return redirect()->route('verify-tickets.list', $request->check_otp);
+                if(session('forgot_pass'))
+                    return redirect()->route('reset.password', $request->check_otp);
+                else 
+                    return redirect()->route('verify-tickets.list', $request->check_otp);
             }else
             {
                 return view('pages.verify_tickets', [
@@ -397,7 +437,7 @@ class HomeController extends Controller
                 );
             }
             $sent = true;
-            Cache::put($phone_cache_key, time(), 59 * 1);
+            Cache::put($phone_cache_key, time(), 59 * 2);
         }
 
         return view('pages.verify_tickets', [

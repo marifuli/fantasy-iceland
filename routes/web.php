@@ -18,7 +18,10 @@ Route::get('/verify/phone', [HomeController::class, 'verify_phone'])
 Route::post('/verify/phone', [HomeController::class, 'verify_phone'])
     ->middleware(['auth']);
 
-Route::view('/verify-tickets', 'pages.verify_tickets')->name('verify-tickets');
+Route::get('reset/password/{code}', [HomeController::class, 'reset_pass'])->name('reset.password');
+Route::post('reset/password/{code}/submit', [HomeController::class, 'reset_pass_submit'])->name('reset.password.submit');
+Route::get('/forgot/password', [HomeController::class, 'forgot_pass'])->name('forgot.password');
+Route::get('/verify-tickets', [HomeController::class, 'verify_tickets'])->name('verify-tickets');
 Route::post('/verify-tickets', [HomeController::class, 'verify_tickets_submit']);
 Route::get('/verify-tickets/{code}', [HomeController::class, 'verify_tickets_list'])        
     ->name('verify-tickets.list');

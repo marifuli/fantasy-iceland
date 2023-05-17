@@ -2,12 +2,18 @@
 @section('content') 
     <div class="container mt-5">
         <h3 class="text-center mb-4">
-            Verify Tickets 
+            @dump(session('forgot_pass'))
+            @if(session('forgot_pass'))
+                Forgot password 
+            @else 
+                Verify 
+                Tickets 
+            @endif 
             @if(env('APP_DEBUG'))
                 {{session('code')}}
             @endif 
         </h3>
-        <form method="POST" style="width: 90%; margin: auto; max-width: 400px">
+        <form method="POST" action="{{ route('verify-tickets') }}" style="width: 90%; margin: auto; max-width: 400px">
             @csrf
             @if ($errors->any())
                 @foreach ($errors->all() as $error)
@@ -45,9 +51,9 @@
                     <script>
                         let time_passed = {{ $cache }}
                         let interval = setInterval(() => {
-                            if(time_passed === (60 * 1))
+                            if(time_passed === (60 * 2))
                             {
-                                $('.send-again').html(`<a class="btn btn-info" href="">Send again</a>`)
+                                $('.send-again').html(`<a class="btn btn-info" onclick="$('.__form form').submit()">Send again</a>`)
                                 clearInterval(interval)
                             }
                             else 
@@ -61,11 +67,27 @@
             <!-- Submit button -->
             <button type="submit" class="btn btn-primary btn-block mb-4">
                 @if(isset($emailOrPhone))
-                Verify otp 
+                    @if(session('forgot_pass'))
+                        Verify 
+                    @else 
+                        Verify otp 
+                    @endif 
                 @else 
-                Send Otp  
+                    Send Otp  
                 @endif 
             </button>
         </form>
     </div>
+
+    @if (is_numeric($cache))
+        <div class="d-none __form">
+            <form method="POST" action="{{ route('verify-tickets') }}" style="width: 90%; margin: auto; max-width: 400px">
+                @csrf
+                <input type="hidden" id="form2Example1" class="form-control"
+                value="{{ $emailOrPhone ?? '' }}" name="emailOrPhone"
+                @if(isset($emailOrPhone)) disabled @endif 
+                />
+            </form>
+        </div>
+    @endif 
 @endsection
