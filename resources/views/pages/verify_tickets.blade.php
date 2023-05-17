@@ -2,7 +2,6 @@
 @section('content') 
     <div class="container mt-5">
         <h3 class="text-center mb-4">
-            @dump(session('forgot_pass'))
             @if(session('forgot_pass'))
                 Forgot password 
             @else 
