@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <!-- ======= Hero Section ======= -->
-<section id="hero1" style="padding-top: 0; padding-bottom: 30px;" class="d-flex align-items-center">
+<section id="hero1" style="padding-top: 0; padding-bottom: 30px;">
   <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
       <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -13,10 +13,10 @@
         <img src="/assetsv2/img/fb cover.jpg" class="d-block w-100">
       </div>
       <div class="carousel-item">
-        <img src="/assetsv2/img/2.jpg" class="d-block w-100">
+        <img src="/assetsv2/img/cover2.jpg" class="d-block w-100">
       </div>
       <div class="carousel-item">
-        <img src="/assetsv2/img/3.jpg" class="d-block w-100">
+        <img src="/assetsv2/img/cover3.jpg" class="d-block w-100">
       </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
