@@ -26,7 +26,7 @@
     <link href="/assetsv2/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link href="/assetsv2/css/style.css?v=1" rel="stylesheet">
+    <link href="/assetsv2/css/style.css?v=2" rel="stylesheet">
     
     <link rel="stylesheet" href="{{ asset('assets/scss/app.min.css') }}">
 
