@@ -4,10 +4,12 @@
 <section id="hero" class="d-flex align-items-center">
     <div class="container" data-aos="zoom-out" data-aos-delay="100">
         <h1>Welcome to <span>Fantasy Island</span></h1>
-        <h2>Fun unlimited, Fantasy Island ensures the Kids right of recreation, No more bore evening for our children in the city. Find your all funs here at one step to your door at Uttara, Dhaka.</h2>
+        <h2>
+          It's unlimited fun for friends and family that you can enjoy all day long with us. We have started a new movie theater where block blaster movies are playing daily.
+        </h2>
         <div class="d-flex">
             <a href="#buyticket" class="btn-get-started scrollto">Book Your Ticket Now!</a>
-            <a href="https://www.youtube.com/watch?v=PWijuyJWx_I" class="glightbox btn-watch-video"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
+            <a href="https://www.youtube.com/watch?v=EcM6Bv13xV4" class="glightbox btn-watch-video"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
         </div>
     </div>
 </section>
@@ -253,7 +255,7 @@
                 <p>Fun unlimited, Fantasy Island ensures the Kids right of recreation, No more bore evening for our children in the city. Find your all funs here at one step to your door at Uttara, Dhaka.</p>
             </div>
             <div class="row">
-                <iframe width="713" height="401" src="https://www.youtube.com/embed/PWijuyJWx_I" title="Fantasy Island Diabari, Uttara, Dhaka 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <iframe width="713" height="401" src="https://www.youtube.com/embed/EcM6Bv13xV4" title="Fantasy Island Diabari, Uttara, Dhaka 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </div>
         </div>
     </section>

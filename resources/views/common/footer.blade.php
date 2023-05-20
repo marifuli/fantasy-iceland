@@ -32,7 +32,7 @@
                 <div class="col-lg-3 col-md-6 footer-links">
                     <h4>Find us on Social Media</h4>
                     <div class="social-links mt-3">
-                        <a href="https://www.facebook.com/fantasyislandeidfestival" class="facebook"><i class="bx bxl-facebook"></i></a>
+                        <a href="https://www.facebook.com/fantasyisland.theater" class="facebook"><i class="bx bxl-facebook"></i></a>
                         <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
                         <a href="https://www.youtube.com/@flatknitinternational4668" class="youtube"><i class="bx bxl-youtube"></i></a>
                     </div>

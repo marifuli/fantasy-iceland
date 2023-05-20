@@ -6,7 +6,7 @@
             <i class="bi bi-phone d-flex align-items-center ms-4"><span>+88017 1612 8008</span></i>
         </div>
         <div class="social-links d-none d-md-flex align-items-center">
-            <a href="https://www.facebook.com/fantasyislandeidfestival" class="facebook"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.facebook.com/fantasyisland.theater" class="facebook"><i class="bi bi-facebook"></i></a>
             <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
             <a href="https://www.youtube.com/@flatknitinternational4668" class="youtube"><i class="bi bi-youtube"></i></i></a>
         </div>
