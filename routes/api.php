@@ -20,6 +20,7 @@ Route::any('/github/webhook/{github_key}', function ($github_key) {
         dump(shell_exec('git pull'));
         dump(shell_exec('composer update'));
         dump(shell_exec('php artisan migrate --force'));
+        return 1;
     }
     return abort(404);
 });
