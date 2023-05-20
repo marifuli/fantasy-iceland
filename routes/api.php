@@ -17,9 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::any('/github/webhook/{github_key}', function ($github_key) {
     if($github_key && $github_key === env('GITHUB_WEBHOOK_KEY'))
     {
-        dump(shell_exec('git pull'));
-        dump(shell_exec('cd . && composer update'));
-        dump(shell_exec('cd . && php artisan migrate --force'));
+        dump(exec('git pull'));
+        dump(exec('cd . && composer update'));
+        dump(exec('cd . && php artisan migrate --force'));
         return 1;
     }
     return abort(404);
