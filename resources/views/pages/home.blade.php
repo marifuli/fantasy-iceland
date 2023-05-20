@@ -1,24 +1,52 @@
 @extends('layouts.app')
 @section('content')
 <!-- ======= Hero Section ======= -->
-<section id="hero" class="d-flex align-items-center">
-    <div class="container" data-aos="zoom-out" data-aos-delay="100">
-        <h1>Welcome to <span>Fantasy Island</span></h1>
-        <h2>
-          It's unlimited fun for friends and family that you can enjoy all day long with us. We have started a new movie theater where block blaster movies are playing daily.
-        </h2>
-        <div class="d-flex">
-            <a href="#buyticket" class="btn-get-started scrollto">Book Your Ticket Now!</a>
-            <a href="https://www.youtube.com/watch?v=EcM6Bv13xV4" class="glightbox btn-watch-video"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
-        </div>
+<section id="hero1" style="padding-top: 0; padding-bottom: 30px;" class="d-flex align-items-center">
+  <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="/assetsv2/img/fb cover.jpg" class="d-block w-100">
+      </div>
+      <div class="carousel-item">
+        <img src="/assetsv2/img/2.jpg" class="d-block w-100">
+      </div>
+      <div class="carousel-item">
+        <img src="/assetsv2/img/3.jpg" class="d-block w-100">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
 </section>
 <!-- End Hero -->
 <main id="main">
     <!-- ======= Featured Services Section ======= -->
     <section id="featured-services" class="featured-services">
         <div class="container" data-aos="fade-up">
-            <div class="row">
+            <div id="hero">
+              <div class="container mb-5">
+                  <h1>Welcome to <span>Fantasy Island</span></h1>
+                  <h2>
+                    It's unlimited fun for friends and family that you can enjoy all day long with us. We have started a new movie theater where block blaster movies are playing daily.
+                  </h2>
+                  <div class="d-flex">
+                      <a href="#buyticket" class="btn-get-started scrollto">Book Your Ticket Now!</a>
+                      <a href="https://www.youtube.com/watch?v=EcM6Bv13xV4" class="glightbox btn-watch-video"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
+                  </div>
+              </div>
+            </div>              
+            <div class="row mt-5 pt-4">
                 <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
                     <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
                         <h4 class="title"><a href="">Movie Theater</a></h4>
