@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('content')
+@php
+    dd($tickets);
+@endphp
     <div class="container mt-3">
         <h3 class="mb-4">
             My Tickets 
@@ -11,9 +14,6 @@
             </h4>
             <div class="row">
                 @forelse ($tickets as $item)
-                    @if(request('dump'))
-                        @dump($item)
-                    @else 
                     <div class="col-6 col-sm-4 col-md-3">
                         <div class="card">
                             <img src="/storage/{{ $item->ticket->image }}" class="card-img-top">
@@ -29,7 +29,6 @@
                             </div>
                         </div>    
                     </div>
-                    @endif 
                 @empty
                     <i>
                         Nothing Found!
