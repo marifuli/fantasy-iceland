@@ -11,6 +11,9 @@
             </h4>
             <div class="row">
                 @forelse ($tickets as $item)
+                    @if(request('dump'))
+                        @dump($item)
+                    @else 
                     <div class="col-6 col-sm-4 col-md-3">
                         <div class="card">
                             <img src="/storage/{{ $item->ticket->image }}" class="card-img-top">
@@ -26,6 +29,7 @@
                             </div>
                         </div>    
                     </div>
+                    @endif 
                 @empty
                     <i>
                         Nothing Found!
