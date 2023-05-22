@@ -1,8 +1,5 @@
 @extends('layouts.app')
 @section('content')
-@php
-    dd($tickets);
-@endphp
     <div class="container mt-3">
         <h3 class="mb-4">
             My Tickets 
@@ -16,17 +13,23 @@
                 @forelse ($tickets as $item)
                     <div class="col-6 col-sm-4 col-md-3">
                         <div class="card">
-                            <img src="/storage/{{ $item->ticket->image }}" class="card-img-top">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    {{ $item->ticket->name }}
-                                </h5>
-                                <a class="btn btn-sm btn-sucess mt-3" href="{{ route('ticket.download', $item->id) }}"
-                                    download="Entry ticket.{{ @explode('.', $item->ticket->base_ticket_image)[1] }}"
-                                >
-                                    <i class="fa fa-download"></i> Download ticket 
-                                </a>
-                            </div>
+                            @if ($item->ticket)
+                                <img src="/storage/{{ $item->ticket->image }}" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        {{ $item->ticket->name }}
+                                    </h5>
+                                    @if($item->ticket->base_ticket_image)
+                                        <a class="btn btn-sm btn-sucess mt-3" href="{{ route('ticket.download', $item->id) }}"
+                                            download="Entry ticket.{{ @explode('.', $item->ticket->base_ticket_image)[1] }}"
+                                        >
+                                            <i class="fa fa-download"></i> Download ticket 
+                                        </a>
+                                    @endif 
+                                </div>
+                            @else 
+                                <div class="text-danger p-3"><i>Ticket not available</i></div>
+                            @endif
                         </div>    
                     </div>
                 @empty
@@ -44,22 +47,28 @@
                 @forelse ($movies as $item)
                     <div class="col-6 col-sm-4 col-md-3">
                         <div class="card">
-                            <img src="/storage/{{ $item->movie->image }}" class="card-img-top">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    {{ $item->movie->name }} 
-                                </h5>
-                                <p>
-                                    <small>
-                                        Seat: {{ $item->seat_no }}
-                                    </small>
-                                </p>
-                                <a class="btn btn-sm btn-sucess" href="{{ route('movie.download', $item->id) }}" 
-                                    download="{{ $item->movie->name }} ticket.{{ @explode('.', $item->movie->base_ticket_image)[1] }}"
-                                >
-                                    <i class="fa fa-download"></i> Download ticket 
-                                </a>
-                            </div>
+                            @if($item->movie)
+                                <img src="/storage/{{ $item->movie->image }}" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        {{ $item->movie->name }} 
+                                    </h5>
+                                    <p>
+                                        <small>
+                                            Seat: {{ $item->seat_no }}
+                                        </small>
+                                    </p>
+                                    @if($item->movie->base_ticket_image)
+                                        <a class="btn btn-sm btn-sucess" href="{{ route('movie.download', $item->id) }}" 
+                                            download="{{ $item->movie->name }} ticket.{{ @explode('.', $item->movie->base_ticket_image)[1] }}"
+                                        >
+                                            <i class="fa fa-download"></i> Download ticket 
+                                        </a>
+                                    @endif 
+                                </div>
+                            @else 
+                                <div class="text-danger p-3"><i>Ticket not available</i></div>
+                            @endif
                         </div>
                     </div>
                 @empty
