@@ -85,3 +85,10 @@
     </div>
 </header>
 <!-- End Header -->
+@auth
+    <div class="d-block d-md-none alert alert-success">
+        <small>
+            Welcome {{auth()->user()->name}}!
+        </small>
+    </div>
+@endauth

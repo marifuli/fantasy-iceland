@@ -86,10 +86,10 @@ class HomeController extends Controller
         }
         if(!auth()->user()->phone_verified_at)
         {
-            if(!session('after_login'))
-            {
+            // if(!session('after_login'))
+            // {
                 session(['after_login' => $request->fullUrl()]);
-            }
+            // }
             return redirect(
                 route("verify.phone")
             );
@@ -113,10 +113,12 @@ class HomeController extends Controller
                     'ticket' => $ticket->id,
                     'quantity' => $quantity,
                     'price' => $amount,
-                ]
+                ],
             ]);
             return redirect($getPaymentUrlResponse['data']['data']);
         }
+        if(env('APP_DEBUG')) dd("Bkash error");
+        return redirect('/')->with('error', "Bkash error");
     }
     public function movie($id)
     {
