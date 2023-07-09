@@ -56,12 +56,6 @@
                                 Verify Tickets
                             </a>
                         </li>
-                    @else 
-                        <li>
-                            <a class="nav-link" href="{{ route('my-tickets') }}">
-                                My  Tickets
-                            </a>
-                        </li>
                     @endguest
                 @endif 
                 <li class="dropdown">
@@ -81,6 +75,21 @@
                         @endguest 
                     </ul>
                 </li>
+                @if(auth()->user() && auth()->user()->role !== 'admin')
+                    <li>
+                        <div>
+                            <a style="
+                                width: 150px;
+                                display: block;
+                                text-align: center;
+                                margin: 0 auto;
+                            "
+                                class="btn btn-info btn-sm" href="{{ route('my-tickets') }}">
+                                My  Tickets
+                            </a>
+                        </div>
+                    </li>
+                @endif 
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav>
