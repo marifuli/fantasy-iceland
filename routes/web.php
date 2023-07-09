@@ -60,6 +60,10 @@ Route::prefix('admin')->name('admin.')->middleware([IsAdmin::class])
     
         Route::get('reports/update-status', [\App\Http\Controllers\Admin\HomeController::class, 'reports_update_status'])
             ->name('reports.update-status');
+        Route::get('settings', [\App\Http\Controllers\Admin\HomeController::class, 'settings'])
+            ->name('settings');
+        Route::post('settings', [\App\Http\Controllers\Admin\HomeController::class, 'settings_store'])
+            ->name('settings.store');
         Route::get('reports/{category?}', [\App\Http\Controllers\Admin\HomeController::class, 'reports'])->name('reports');
         Route::delete('reports/movie/{id}', [\App\Http\Controllers\Admin\HomeController::class, 'reports_movie_delete'])->name('reports.delete.movie');
         Route::delete('reports/ticket/{id}', [\App\Http\Controllers\Admin\HomeController::class, 'reports_ticket_delete'])->name('reports.delete.ticket');

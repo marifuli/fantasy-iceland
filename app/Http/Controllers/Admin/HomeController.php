@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\MovieTicket;
+use App\Models\Setting;
 use App\Models\UserTicket;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
@@ -69,5 +71,101 @@ class HomeController extends Controller
         $ti = MovieTicket::query()->findOrFail($id);
         $ti->delete();
         return redirect()->back()->with('message', "Ticket deleted ");          
+    }
+    function settings()  
+    {
+        return view('pages.admin.settings');    
+    }
+    function settings_store(Request $request) 
+    {
+        // $request->dd();
+        if($request->home_section_text_1)
+        {
+            $file = $request->home_section_text_1;
+            $check = Setting::query()->where('key', 'home_section_text_1')->first();
+            if($check) 
+            {
+                $check->update([
+                    'value' => $request->home_section_text_1,
+                ]);
+            }else {
+                Setting::query()->create([
+                    'value' => $request->home_section_text_1,
+                    'key' => 'home_section_text_1'
+                ]);
+            }
+        }
+        if($request->home_section_text_2)
+        {
+            $file = $request->home_section_text_2;
+            $check = Setting::query()->where('key', 'home_section_text_2')->first();
+            if($check) 
+            {
+                $check->update([
+                    'value' => $request->home_section_text_2,
+                ]);
+            }else {
+                Setting::query()->create([
+                    'value' => $request->home_section_text_2,
+                    'key' => 'home_section_text_2'
+                ]);
+            }
+        }
+
+        if($request->file('home_slider_1'))
+        {
+            $file = $request->file('home_slider_1');
+            $new_file = Storage::put(Setting::$image_store_path, $file);
+            $check = Setting::query()->where('key', 'home_slider_1')->first();
+            if($check) 
+            {
+                Storage::delete($check->value);
+                $check->update([
+                    'value' => $new_file,
+                ]);
+            }else {
+                Setting::query()->create([
+                    'value' => $new_file,
+                    'key' => 'home_slider_1'
+                ]);
+            }
+        }
+        if($request->file('home_slider_2'))
+        {
+            $file = $request->file('home_slider_2');
+            $new_file = Storage::put(Setting::$image_store_path, $file);
+            $check = Setting::query()->where('key', 'home_slider_2')->first();
+            if($check) 
+            {
+                Storage::delete($check->value);
+                $check->update([
+                    'value' => $new_file,
+                ]);
+            }else {
+                Setting::query()->create([
+                    'value' => $new_file,
+                    'key' => 'home_slider_2'
+                ]);
+            }
+        }
+        if($request->file('home_slider_3'))
+        {
+            $file = $request->file('home_slider_3');
+            $new_file = Storage::put(Setting::$image_store_path, $file);
+            $check = Setting::query()->where('key', 'home_slider_3')->first();
+            if($check) 
+            {
+                Storage::delete($check->value);
+                $check->update([
+                    'value' => $new_file,
+                ]);
+            }else {
+                Setting::query()->create([
+                    'value' => $new_file,
+                    'key' => 'home_slider_3'
+                ]);
+            }
+        }
+        return back()->with("status", "Data updated!");
     }
 }

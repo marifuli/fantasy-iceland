@@ -10,13 +10,13 @@
     </div>
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img src="/assetsv2/img/fb cover.jpg" class="d-block w-100">
+        <img src="{{ \App\Models\Setting::home_slider_1() }}" class="d-block w-100">
       </div>
       <div class="carousel-item">
-        <img src="/assetsv2/img/cover2.jpg" class="d-block w-100">
+        <img src="{{ \App\Models\Setting::home_slider_2() }}" class="d-block w-100">
       </div>
       <div class="carousel-item">
-        <img src="/assetsv2/img/cover3.jpg" class="d-block w-100">
+        <img src="{{ \App\Models\Setting::home_slider_3() }}" class="d-block w-100">
       </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -36,13 +36,15 @@
         <div class="container" data-aos="fade-up">
             <div id="hero">
               <div class="container mb-5">
-                  <h1>Welcome to <span>Fantasy Island</span></h1>
+                  <h1>{!! \App\Models\Setting::home_section_text_1() !!}</h1>
                   <h2>
-                    It's unlimited fun for friends and family that you can enjoy all day long with us. We have started a new movie theater where block blaster movies are playing daily.
+                    {!! \App\Models\Setting::home_section_text_2() !!}
                   </h2>
                   <div class="d-flex">
                       <a href="#buyticket" class="btn-get-started scrollto">Book Your Ticket Now!</a>
-                      <a href="https://www.youtube.com/watch?v=EcM6Bv13xV4" class="glightbox btn-watch-video"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
+                      {{-- <a href="https://www.youtube.com/watch?v=EcM6Bv13xV4" class="glightbox btn-watch-video">
+                        <i class="bi bi-play-circle"></i><span>Watch Video</span>
+                      </a> --}}
                   </div>
               </div>
             </div>  

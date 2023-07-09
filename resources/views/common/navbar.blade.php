@@ -25,6 +25,9 @@
             <ul>
                 @if(auth()->user() && auth()->user()->role === 'admin')
                     <li>
+                        <a class="nav-link" href="{{route('admin.settings')}}">Settings</a>
+                    </li>
+                    <li>
                         <a class="nav-link" href="{{route('admin.tickets.index')}}">Tickets</a>
                     </li>
                     <li>

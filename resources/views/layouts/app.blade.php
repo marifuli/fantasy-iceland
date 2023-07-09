@@ -37,7 +37,7 @@
         }
     </script>
 </head>
-<body>
+<body style="overflow-x: hidden">
     @include('common.navbar')
     <div>
         {{-- <div class="container"> --}}
@@ -81,5 +81,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/38.1.0/classic/ckeditor.js"></script>
+
 </body>
 </html>
